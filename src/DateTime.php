@@ -2,14 +2,13 @@
 
 namespace Pauci\DateTime;
 
-use DateInterval;
 use DateTime as PhpDateTime;
 use DateTimeZone;
 use JsonSerializable;
 
 class DateTime extends PhpDateTime implements JsonSerializable
 {
-    private static $format = self::ATOM;
+    private static $format = 'Y-m-d\TH:i:s.uP';
 
     public static function now()
     {
