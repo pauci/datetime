@@ -18,13 +18,16 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testToString()
     {
-        $dateTime = new DateTime('2016-05-12 22:37:46');
+        $dateTime = DateTime::fromString('2016-05-12 22:37:46');
 
-        self::assertEquals('2016-05-12T22:37:46+00:00', (string) $dateTime);
+        self::assertEquals('2016-05-12T22:37:46+00:00', $dateTime->toString());
+        self::assertEquals('2016-05-12T22:37:46+00:00', sprintf('%s', $dateTime));
     }
 
     public function testJsonSerialize()
     {
-        
+        $dateTime = DateTime::now();
+
+        self::assertEquals('"' . $dateTime->toString() . '"', json_encode($dateTime));
     }
 }
