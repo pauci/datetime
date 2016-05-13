@@ -1,0 +1,87 @@
+<?php
+
+namespace Pauci\DateTime;
+
+use DateTimeZone;
+
+class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
+{
+    /**
+     * @var string
+     */
+    private static $format = 'Y-m-d\TH:i:s.uP';
+
+    /**
+     * @var DateTimeFactoryInterface
+     */
+    private static $factory;
+
+    /**
+     * @return DateTimeFactoryInterface
+     */
+    public static function getFactory()
+    {
+        if (!self::$factory) {
+            self::$factory = new DateTimeFactory(self::class);
+        }
+        return self::$factory;
+    }
+
+    /**
+     * @param DateTimeFactoryInterface $factory
+     */
+    public static function setFactory(DateTimeFactoryInterface $factory)
+    {
+        self::$factory = $factory;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public static function now()
+    {
+        return self::getFactory()->now();
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public static function microsecondsNow()
+    {
+        return self::getFactory()->microsecondsNow();
+    }
+
+    /**
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTimeImmutable
+     */
+    public static function fromString($time, DateTimeZone $timezone = null)
+    {
+        return self::getFactory()->fromString($time, $timezone);
+    }
+
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->format(self::$format);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->toString();
+    }
+}
