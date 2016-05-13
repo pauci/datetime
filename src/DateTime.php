@@ -36,7 +36,7 @@ class DateTime extends \DateTime implements DateTimeInterface
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
     public static function now()
     {
@@ -44,7 +44,7 @@ class DateTime extends \DateTime implements DateTimeInterface
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
     public static function microsecondsNow()
     {
@@ -54,7 +54,7 @@ class DateTime extends \DateTime implements DateTimeInterface
     /**
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTimeInterface
+     * @return DateTime
      */
     public static function fromString($time, DateTimeZone $timezone = null)
     {
@@ -67,13 +67,6 @@ class DateTime extends \DateTime implements DateTimeInterface
     public function toString()
     {
         return $this->format(self::$format);
-    }
-
-    public function __construct($time = 'now', DateTimeZone $timezone = null)
-    {
-        parent::__construct($time, $timezone);
-
-        $this->precision = random_int(1, 1000);
     }
 
     /**

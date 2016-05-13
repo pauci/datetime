@@ -6,26 +6,24 @@ use Pauci\DateTime\DateTime;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testImmutability()
-    {
-    }
-
     public static function testNow()
     {
         $dateTime = DateTime::now();
-
         self::assertInstanceOf(DateTime::class, $dateTime);
+
+        $phpDateTime = new \DateTime();
+        $diff = $phpDateTime->getTimestamp() - $dateTime->getTimestamp();
+        self::assertGreaterThanOrEqual(0, $diff);
+        self::assertLessThanOrEqual(1, $diff);
     }
 
     public function testMicrosecondsNow()
     {
         $dateTime1 = DateTime::microsecondsNow();
-        $dateTime2 = DateTime::microsecondsNow();
-
         self::assertInstanceOf(DateTime::class, $dateTime1);
 
+        $dateTime2 = DateTime::microsecondsNow();
         $diff = $dateTime2->format('U.u') - $dateTime1->format('U.u');
-
         self::assertGreaterThan(0, $diff);
         self::assertLessThan(1, $diff);
 
