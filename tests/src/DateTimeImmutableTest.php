@@ -2,6 +2,7 @@
 
 namespace Pauci\DateTime\Test;
 
+use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTimeImmutable;
 
 class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
@@ -70,6 +71,16 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
 
         self::assertTrue($dateTime5 > $dateTime6);
         self::assertFalse($dateTime5 <= $dateTime6);
+    }
+
+    public function testDiff()
+    {
+        $dateTime1 = DateTimeImmutable::fromString('2017-01-10 12:20:11');
+        $dateTime2 = DateTimeImmutable::fromString('2015-02-22 14:33:54');
+
+        $interval = $dateTime1->diff($dateTime2);
+        self::assertInstanceOf(DateInterval::class, $interval);
+        self::assertEquals('P1Y10M15DT21H46M17S', (string) $interval);
     }
 
     public function testToString()

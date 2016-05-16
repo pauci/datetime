@@ -92,6 +92,17 @@ class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
+     * @param \DateTimeInterface $dateTime
+     * @param bool $absolute
+     * @return DateInterval
+     */
+    public function diff($dateTime, $absolute = false)
+    {
+        $interval = parent::diff($dateTime, $absolute);
+        return DateInterval::fromDateInterval($interval);
+    }
+
+    /**
      * @return string
      */
     public function toString()
