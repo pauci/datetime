@@ -84,6 +84,15 @@ class DateTime extends \DateTime implements DateTimeInterface
     }
 
     /**
+     * @param \DateTimeInterface $dateTime
+     * @return DateTime
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime)
+    {
+        return self::getFactory()->fromDateTime($dateTime);
+    }
+
+    /**
      * @return string
      */
     public function toString()

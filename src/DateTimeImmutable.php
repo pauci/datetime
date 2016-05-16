@@ -82,6 +82,14 @@ class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
     {
         return self::fromFormat($format, $time, $timezone);
     }
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return DateTimeImmutable
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime)
+    {
+        return self::getFactory()->fromDateTime($dateTime);
+    }
 
     /**
      * @return string
