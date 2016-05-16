@@ -31,6 +31,14 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($phpDateTime->getTimezone(), $dateTime1->getTimezone());
     }
 
+    public function testCreateFromFormat()
+    {
+        $dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10');
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
+
+        self::assertEquals('2016-05-16T14:09:10.000000+02:00', (string) $dateTime);
+    }
+
     public function testComparison()
     {
         $dateTime1 = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');

@@ -62,6 +62,28 @@ class DateTime extends \DateTime implements DateTimeInterface
     }
 
     /**
+     * @param string $format
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     */
+    public static function fromFormat($format, $time, DateTimeZone $timezone = null)
+    {
+        return self::getFactory()->fromFormat($format, $time, $timezone);
+    }
+
+    /**
+     * @param string $format
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     */
+    public static function createFromFormat($format, $time, $timezone = null)
+    {
+        return self::fromFormat($format, $time, $timezone);
+    }
+
+    /**
      * @return string
      */
     public function toString()
