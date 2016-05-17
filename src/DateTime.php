@@ -84,6 +84,16 @@ class DateTime extends \DateTime implements DateTimeInterface
     }
 
     /**
+     * @param int $timestamp
+     * @param DateTimeZone $timezone
+     * @return DateTime
+     */
+    public static function fromTimestamp($timestamp, DateTimeZone $timezone = null)
+    {
+        return self::getFactory()->fromTimestamp($timestamp, $timezone);
+    }
+
+    /**
      * @param \DateTimeInterface $dateTime
      * @return DateTime
      */
@@ -125,5 +135,21 @@ class DateTime extends \DateTime implements DateTimeInterface
     public function jsonSerialize()
     {
         return $this->toString();
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return int
+     */
+    public function compare(\DateTimeInterface $dateTime)
+    {
+        $ts1 = $this->getTimestamp();
+        $ts2 = $dateTime->getTimestamp();
+
+        if ($ts1 === $ts2) {
+            return 0;
+        }
+
+        return $ts1 < $ts2 ? -1 : 1;
     }
 }

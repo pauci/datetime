@@ -40,6 +40,13 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:09:10.000000+02:00', (string) $dateTime);
     }
 
+    public function testFromTimestamp()
+    {
+        $dateTime = DateTimeImmutable::fromTimestamp(1463490311);
+
+        self::assertEquals('2016-05-17T15:05:11.000000+02:00', (string) $dateTime);
+    }
+
     public function testFromDateTime()
     {
         $phpDateTime = new \DateTime('2016-05-16 14:32:51.678991');

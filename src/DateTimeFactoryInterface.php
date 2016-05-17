@@ -36,4 +36,11 @@ interface DateTimeFactoryInterface
      * @return DateTimeInterface
      */
     public function fromString($string, DateTimeZone $timezone = null);
+
+    /**
+     * @param int $timestamp
+     * @param DateTimeZone $timezone
+     * @return DateTimeInterface
+     */
+    public function fromTimestamp($timestamp, DateTimeZone $timezone = null);
 }
