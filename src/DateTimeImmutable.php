@@ -4,6 +4,10 @@ namespace Pauci\DateTime;
 
 use DateTimeZone;
 
+/**
+ * @method DateTimeImmutable add(\DateInterval $interval)
+ * @method DateTimeImmutable sub(\DateInterval $interval)
+ */
 class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
 {
     /**

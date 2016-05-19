@@ -80,6 +80,28 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($dateTime5 <= $dateTime6);
     }
 
+    public function testAdd()
+    {
+        $dateTime = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
+        $interval = new DateInterval('P1D');
+
+        $dateTime = $dateTime->add($interval);
+
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
+        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime);
+    }
+
+    public function testSub()
+    {
+        $dateTime = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
+        $interval = new DateInterval('P1D');
+
+        $dateTime = $dateTime->sub($interval);
+
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
+        self::assertEquals('2016-05-11T22:37:46.000000+02:00', (string) $dateTime);
+    }
+
     public function testDiff()
     {
         $dateTime1 = DateTimeImmutable::fromString('2017-01-10 12:20:11');
