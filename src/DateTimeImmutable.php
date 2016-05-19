@@ -7,6 +7,7 @@ use DateTimeZone;
 /**
  * @method DateTimeImmutable add(\DateInterval $interval)
  * @method DateTimeImmutable sub(\DateInterval $interval)
+ * @method DateTimeImmutable modify($modify)
  */
 class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
 {

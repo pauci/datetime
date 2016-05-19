@@ -82,24 +82,42 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $dateTime = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
+        $dateTime1 = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
         $interval = new DateInterval('P1D');
 
-        $dateTime = $dateTime->add($interval);
+        $dateTime2 = $dateTime1->add($interval);
 
-        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime);
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
+        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime2);
+
+        // Immutability check
+        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
     }
 
     public function testSub()
     {
-        $dateTime = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
+        $dateTime1 = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
         $interval = new DateInterval('P1D');
 
-        $dateTime = $dateTime->sub($interval);
+        $dateTime2 = $dateTime1->sub($interval);
 
-        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        self::assertEquals('2016-05-11T22:37:46.000000+02:00', (string) $dateTime);
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
+        self::assertEquals('2016-05-11T22:37:46.000000+02:00', (string) $dateTime2);
+
+        // Immutability check
+        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+    }
+
+    public function testModify()
+    {
+        $dateTime1 = DateTimeImmutable::fromString('2016-05-12 22:37:46+02:00');
+        $dateTime2 = $dateTime1->modify('+1 day');
+
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
+        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime2);
+
+        // Immutability check
+        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
     }
 
     public function testDiff()
