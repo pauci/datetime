@@ -45,7 +45,10 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function fromFormat($format, $time, DateTimeZone $timezone = null)
     {
-        $dateTime = \DateTime::createFromFormat($format, $time, $timezone);
+        $dateTime = $timezone !== null
+            ? \DateTime::createFromFormat($format, $time, $timezone)
+            : \DateTime::createFromFormat($format, $time);
+
         if (!$dateTime) {
             throw new \InvalidArgumentException(sprintf(
                 'Failed to parse time string "%s" formatted as "%s"',
@@ -53,6 +56,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
                 $format
             ));
         }
+
         return $this->fromDateTime($dateTime);
     }
 
