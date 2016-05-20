@@ -8,6 +8,12 @@ use DateTimeZone;
  * @method DateTimeImmutable add(\DateInterval $interval)
  * @method DateTimeImmutable sub(\DateInterval $interval)
  * @method DateTimeImmutable modify($modify)
+ * @method DateTimeImmutable setDate($year, $month, $day)
+ * @method DateTimeImmutable setISODate($year, $week, $day = 1)
+ * @method DateTimeImmutable setTime($hour, $minute, $second = 0)
+ * @method DateTimeImmutable setTimestamp($unixtimestamp)
+ * @method DateTimeImmutable setTimezone(DateTimeZone $timezone)
+ *
  */
 class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
 {
