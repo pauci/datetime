@@ -4,7 +4,17 @@ namespace Pauci\DateTime;
 
 use DateTimeZone;
 
-class DateTime extends \DateTime implements DateTimeInterface
+/**
+ * @method DateTime add(\DateInterval $interval)
+ * @method DateTime sub(\DateInterval $interval)
+ * @method DateTime modify($modify)
+ * @method DateTime setDate($year, $month, $day)
+ * @method DateTime setISODate($year, $week, $day = 1)
+ * @method DateTime setTime($hour, $minute, $second = 0)
+ * @method DateTime setTimestamp($unixtimestamp)
+ * @method DateTime setTimezone(DateTimeZone $timezone)
+ */
+class DateTime extends \DateTimeImmutable implements DateTimeInterface
 {
     /**
      * @var DateTimeFactoryInterface
@@ -121,7 +131,7 @@ class DateTime extends \DateTime implements DateTimeInterface
      */
     private function getFormat()
     {
-        return $this->format('u') === '000000' ? self::ATOM : 'Y-m-d\TH:i:s.uP';
+        return $this->format('u') === '000000' ? \DateTime::ATOM : 'Y-m-d\TH:i:s.uP';
     }
 
     /**
@@ -138,21 +148,5 @@ class DateTime extends \DateTime implements DateTimeInterface
     public function jsonSerialize()
     {
         return $this->toString();
-    }
-
-    /**
-     * @param \DateTimeInterface $dateTime
-     * @return int
-     */
-    public function compare(\DateTimeInterface $dateTime)
-    {
-        $ts1 = $this->getTimestamp();
-        $ts2 = $dateTime->getTimestamp();
-
-        if ($ts1 === $ts2) {
-            return 0;
-        }
-
-        return $ts1 < $ts2 ? -1 : 1;
     }
 }

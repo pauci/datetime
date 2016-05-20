@@ -7,21 +7,11 @@ use DateTimeZone;
 class DateTimeFactory implements DateTimeFactoryInterface
 {
     /**
-     * @var string
-     */
-    private $dateTimeClass;
-
-    public function __construct($dateTimeClass = DateTime::class)
-    {
-        $this->dateTimeClass = $dateTimeClass;
-    }
-
-    /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
     public function now()
     {
-        return new $this->dateTimeClass();
+        return new DateTime();
     }
 
     /**
@@ -76,7 +66,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function fromString($time, DateTimeZone $timezone = null)
     {
-        return new $this->dateTimeClass($time, $timezone);
+        return new DateTime($time, $timezone);
     }
 
     /**
