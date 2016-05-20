@@ -27,6 +27,16 @@ class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     */
+    public function fromString($time, DateTimeZone $timezone = null)
+    {
+        return new DateTime($time, $timezone);
+    }
+
+    /**
      * @param string $format
      * @param string $time
      * @param DateTimeZone|null $timezone
@@ -51,25 +61,6 @@ class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param \DateTimeInterface $dateTime
-     * @return DateTime
-     */
-    public function fromDateTime(\DateTimeInterface $dateTime)
-    {
-        return $this->fromString($dateTime->format('Y-m-d H:i:s.u'), $dateTime->getTimezone());
-    }
-
-    /**
-     * @param string $time
-     * @param DateTimeZone|null $timezone
-     * @return DateTime
-     */
-    public function fromString($time, DateTimeZone $timezone = null)
-    {
-        return new DateTime($time, $timezone);
-    }
-
-    /**
      * @param int $timestamp
      * @param DateTimeZone|null $timezone
      * @return DateTime
@@ -78,6 +69,15 @@ class DateTimeFactory implements DateTimeFactoryInterface
     {
         return $this->fromString('@' . $timestamp)
             ->setTimezone($timezone ?: $this->getDefaultTimezone());
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return DateTime
+     */
+    public function fromDateTime(\DateTimeInterface $dateTime)
+    {
+        return $this->fromString($dateTime->format('Y-m-d H:i:s.u'), $dateTime->getTimezone());
     }
 
     /**

@@ -78,17 +78,6 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
-     * @param string $format
-     * @param string $time
-     * @param DateTimeZone|null $timezone
-     * @return DateTime
-     */
-    public static function createFromFormat($format, $time, $timezone = null)
-    {
-        return self::fromFormat($format, $time, $timezone);
-    }
-
-    /**
      * @param int $timestamp
      * @param DateTimeZone $timezone
      * @return DateTime
@@ -105,6 +94,26 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     public static function fromDateTime(\DateTimeInterface $dateTime)
     {
         return self::getFactory()->fromDateTime($dateTime);
+    }
+
+    /**
+     * @param string $format
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     */
+    public static function createFromFormat($format, $time, $timezone = null)
+    {
+        return self::fromFormat($format, $time, $timezone);
+    }
+
+    /**
+     * @param \DateTime $dateTime
+     * @return DateTime
+     */
+    public static function createFromMutable($dateTime)
+    {
+        return self::fromDateTime($dateTime);
     }
 
     /**

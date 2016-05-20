@@ -40,6 +40,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
     }
 
+    public function testCreateFromMutable()
+    {
+        $dateTime = DateTime::createFromMutable(new \DateTime('2016-05-16 14:09:10'));
+        self::assertInstanceOf(DateTime::class, $dateTime);
+
+        self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
+    }
+
     public function testFromTimestamp()
     {
         $dateTime = DateTime::fromTimestamp(1463490311);
