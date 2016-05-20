@@ -37,14 +37,14 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10');
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
 
-        self::assertEquals('2016-05-16T14:09:10.000000+02:00', (string) $dateTime);
+        self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
     }
 
     public function testFromTimestamp()
     {
         $dateTime = DateTimeImmutable::fromTimestamp(1463490311);
 
-        self::assertEquals('2016-05-17T15:05:11.000000+02:00', (string) $dateTime);
+        self::assertEquals('2016-05-17T15:05:11+02:00', (string) $dateTime);
     }
 
     public function testFromDateTime()
@@ -89,10 +89,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->add($interval);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-13T22:37:46+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSub()
@@ -103,10 +103,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->sub($interval);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-11T22:37:46.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-11T22:37:46+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testModify()
@@ -115,10 +115,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->modify('+1 day');
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-13T22:37:46.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-13T22:37:46+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSetDate()
@@ -127,10 +127,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->setDate(2011, 10, 22);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2011-10-22T22:37:46.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2011-10-22T22:37:46+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSetISODate()
@@ -139,10 +139,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->setISODate(2011, 42, 6);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2011-10-22T22:37:46.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2011-10-22T22:37:46+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSetTime()
@@ -151,10 +151,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->setTime(12, 10, 15);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-12T12:10:15.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-12T12:10:15+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSetTimestamp()
@@ -163,10 +163,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->setTimestamp(1463490311);
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-17T15:05:11.000000+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-17T15:05:11+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testSetTimezone()
@@ -175,10 +175,10 @@ class DateTimeImmutableTest extends \PHPUnit_Framework_TestCase
         $dateTime2 = $dateTime1->setTimezone(new \DateTimeZone('America/New_York'));
 
         self::assertInstanceOf(DateTimeImmutable::class, $dateTime2);
-        self::assertEquals('2016-05-12T16:37:46.000000-04:00', (string) $dateTime2);
+        self::assertEquals('2016-05-12T16:37:46-04:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46.000000+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
     public function testDiff()

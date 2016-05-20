@@ -17,6 +17,7 @@ Enhanced DateTime, DateTimeImmutable and DateInterval objects:
 $now = \Pauci\DateTime\DateTime::now();
 $nowWithMicroseconds = \Pauci\DateTime\DateTime::microsecondsNow();
 
-$string = (string) $now;
-$json = json_encode($now);
+$string = (string) $now;                  // 2016-05-20T14:30:54+02:00
+$string2 = (string) $nowWithMicroseconds; // 2016-05-20T14:30:54.074420+02:00
+$json = json_encode($now);                // "2016-05-20T14:30:54+02:00"
 ```

@@ -18,11 +18,6 @@ use DateTimeZone;
 class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
 {
     /**
-     * @var string
-     */
-    private static $format = 'Y-m-d\TH:i:s.uP';
-
-    /**
      * @var DateTimeFactoryInterface
      */
     private static $factory;
@@ -129,7 +124,15 @@ class DateTimeImmutable extends \DateTimeImmutable implements DateTimeInterface
      */
     public function toString()
     {
-        return $this->format(self::$format);
+        return $this->format($this->getFormat());
+    }
+
+    /**
+     * @return string
+     */
+    private function getFormat()
+    {
+        return $this->format('u') === '000000' ? \DateTime::ATOM : 'Y-m-d\TH:i:s.uP';
     }
 
     /**

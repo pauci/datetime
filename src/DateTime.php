@@ -7,11 +7,6 @@ use DateTimeZone;
 class DateTime extends \DateTime implements DateTimeInterface
 {
     /**
-     * @var string
-     */
-    private static $format = 'Y-m-d\TH:i:s.uP';
-
-    /**
      * @var DateTimeFactoryInterface
      */
     private static $factory;
@@ -118,7 +113,15 @@ class DateTime extends \DateTime implements DateTimeInterface
      */
     public function toString()
     {
-        return $this->format(self::$format);
+        return $this->format($this->getFormat());
+    }
+
+    /**
+     * @return string
+     */
+    private function getFormat()
+    {
+        return $this->format('u') === '000000' ? self::ATOM : 'Y-m-d\TH:i:s.uP';
     }
 
     /**

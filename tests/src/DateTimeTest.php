@@ -37,14 +37,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10');
         self::assertInstanceOf(DateTime::class, $dateTime);
 
-        self::assertEquals('2016-05-16T14:09:10.000000+02:00', (string) $dateTime);
+        self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
     }
 
     public function testFromTimestamp()
     {
         $dateTime = DateTime::fromTimestamp(1463490311);
 
-        self::assertEquals('2016-05-17T15:05:11.000000+02:00', (string) $dateTime);
+        self::assertEquals('2016-05-17T15:05:11+02:00', (string) $dateTime);
     }
 
     public function testFromDateTime()
