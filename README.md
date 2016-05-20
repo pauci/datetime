@@ -5,13 +5,13 @@
 [![Build Status](https://travis-ci.org/pauci/datetime.svg?branch=master)](https://travis-ci.org/pauci/datetime)
 [![Coverage Status](https://coveralls.io/repos/pauci/datetime/badge.png?branch=master)](https://coveralls.io/r/pauci/datetime)
 
-Enhanced DateTime, DateTimeImmutable and DateInterval objects:
-- extends built-in types
+Provides enhanced DateTime and DateInterval objects
+- extends built-in DateTimeImmutable object to discouraging use of mutable version
 - allows to obtain current time including microseconds
 - supports conversion to string (ISO 8601)
-- implementing JsonSerializable interface
+- implements JsonSerializable interface
 
-## Usage example
+## Examples
 
 ```php
 $now = \Pauci\DateTime\DateTime::now();
