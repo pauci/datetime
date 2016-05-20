@@ -83,7 +83,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
     public function fromTimestamp($timestamp, DateTimeZone $timezone = null)
     {
         return $this->fromString('@' . $timestamp)
-            ->setTimezone($timezone ?? $this->getDefaultTimezone());
+            ->setTimezone($timezone ?: $this->getDefaultTimezone());
     }
 
     /**
