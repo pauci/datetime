@@ -69,5 +69,4 @@ class DateInterval extends \DateInterval implements \JsonSerializable
         }
         return 'P' . $dateString . 'T' . $timeString;
     }
-
 }

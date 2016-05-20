@@ -1,5 +1,6 @@
 {
     "name": "pauci/datetime",
+    "description": "Enhanced DateTime, DateTimeImmutable and DateInterval objects",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -8,7 +9,10 @@
             "email": "pauci.sk@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": "^5.5 || ^7.0",
+        "squizlabs/php_codesniffer": "^2.6"
+    },
     "require-dev": {
         "phpunit/phpunit": "^5.3"
     },
@@ -19,6 +23,12 @@
         "psr-4": {"Pauci\\DateTime\\Test\\": "tests/src/"}
     },
     "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "phpcs",
+        "cs-fix": "phpcbf",
         "test": "phpunit"
     }
 }

@@ -48,7 +48,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
         $dateTime = \DateTime::createFromFormat($format, $time, $timezone);
         if (!$dateTime) {
             throw new \InvalidArgumentException(sprintf(
-                    'Failed to parse time string "%s" formatted as "%s"',
+                'Failed to parse time string "%s" formatted as "%s"',
                 $time,
                 $format
             ));
