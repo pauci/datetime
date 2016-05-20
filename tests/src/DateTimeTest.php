@@ -61,8 +61,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = DateTime::fromString('2016-05-12 22:37:46.000000', new \DateTimeZone('Europe/Bratislava'));
 
-        self::assertTrue($dateTime1 == $dateTime2);
-        self::assertFalse($dateTime1 != $dateTime2);
+        self::assertEquals($dateTime1, $dateTime2);
 
         $dateTime3 = DateTime::fromString('2017-01-10 12:20:11');
         $dateTime4 = DateTime::fromString('2015-02-22 14:33:54');
@@ -70,11 +69,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertTrue($dateTime3 > $dateTime4);
         self::assertFalse($dateTime3 <= $dateTime4);
 
-        $dateTime5 = DateTime::fromString('2016-05-12 22:37:46.000001');
-        $dateTime6 = DateTime::fromString('2016-05-12 22:37:46');
+        if (PHP_MAJOR_VERSION >= 7) {
+            $dateTime5 = DateTime::fromString('2016-05-12 22:37:46.000001');
+            $dateTime6 = DateTime::fromString('2016-05-12 22:37:46');
 
-        self::assertTrue($dateTime5 > $dateTime6);
-        self::assertFalse($dateTime5 <= $dateTime6);
+            self::assertTrue($dateTime5 > $dateTime6);
+            self::assertFalse($dateTime5 <= $dateTime6);
+        }
     }
 
     public function testDiff()
