@@ -15,11 +15,13 @@ Provides enhanced DateTime and DateInterval objects
 ## Examples
 
 ```php
-$now = \Pauci\DateTime\DateTime::now();
+use Pauci\DateTime\DateTime;
+
+$now = DateTime::now();
 echo $now;              // 2016-05-20T14:30:54+02:00
 echo json_encode($now); // "2016-05-20T14:30:54+02:00"
 
-$nowWithMicroseconds = \Pauci\DateTime\DateTime::microsecondsNow();
+$nowWithMicroseconds = DateTime::microsecondsNow();
 echo $nowWithMicroseconds; // 2016-05-20T14:30:54.074420+02:00
 
 ```
