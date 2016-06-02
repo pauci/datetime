@@ -4,10 +4,20 @@ namespace Pauci\DateTime\Test;
 
 use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTime;
+use Pauci\DateTime\DateTimeFactory;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
-    public static function testNow()
+    public function testSetFactory()
+    {
+        $setFactory = new DateTimeFactory();
+        DateTime::setFactory($setFactory);
+
+        $getFactory = DateTime::getFactory();
+        self::assertSame($setFactory, $getFactory);
+    }
+
+    public function testNow()
     {
         $dateTime = DateTime::now();
         self::assertInstanceOf(DateTime::class, $dateTime);
