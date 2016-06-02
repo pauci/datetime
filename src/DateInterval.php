@@ -15,6 +15,21 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     }
 
     /**
+     * @param int $years
+     * @param int $months
+     * @param int $days
+     * @param int $hours
+     * @param int $minutes
+     * @param int $seconds
+     * @return DateInterval
+     */
+    public static function fromParts($years = 0, $months = 0, $days = 0, $hours = 0, $minutes = 0, $seconds = 0)
+    {
+        $intervalSpec = sprintf('P%dY%dM%dDT%dH%dM%dS', $years, $months, $days, $hours, $minutes, $seconds);
+        return self::fromString($intervalSpec);
+    }
+
+    /**
      * @param string $interval
      * @return DateInterval
      */
@@ -23,11 +38,17 @@ class DateInterval extends \DateInterval implements \JsonSerializable
         return new self($interval);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return self::toString($this);
     }
 
+    /**
+     * @return string
+     */
     public function jsonSerialize()
     {
         return self::toString($this);
