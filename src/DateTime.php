@@ -123,8 +123,17 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      */
     public function diff($dateTime, $absolute = false)
     {
-        $interval = parent::diff($dateTime, $absolute);
-        return DateInterval::fromDateInterval($interval);
+        return DateInterval::fromDateInterval(
+            parent::diff($dateTime, $absolute)
+        );
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function inDefaultTimezone()
+    {
+        return $this->setTimezone(new DateTimeZone(date_default_timezone_get()));
     }
 
     /**
