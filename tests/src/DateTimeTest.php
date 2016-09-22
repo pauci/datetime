@@ -209,6 +209,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('P1Y10M15DT21H46M17S', (string) $interval);
     }
 
+    public function testInDefaultTimezone()
+    {
+        $dateTime = DateTime::fromString('2016-05-12T22:37:46.123456-05:00')->inDefaultTimezone();
+
+        self::assertEquals('2016-05-13T05:37:46.123456+02:00', (string) $dateTime);
+    }
+
     public function testToString()
     {
         $dateTime = DateTime::fromString('2016-05-12 22:37:46.123456-05:00');
