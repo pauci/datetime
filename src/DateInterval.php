@@ -10,8 +10,16 @@ class DateInterval extends \DateInterval implements \JsonSerializable
      */
     public static function fromDateInterval(\DateInterval $dateInterval)
     {
-        $intervalSpec = self::toString($dateInterval);
-        return self::fromString($intervalSpec);
+        $interval = new self('P0D');
+        $interval->y = $dateInterval->y;
+        $interval->m = $dateInterval->m;
+        $interval->d = $dateInterval->d;
+        $interval->h = $dateInterval->h;
+        $interval->i = $dateInterval->i;
+        $interval->s = $dateInterval->s;
+        $interval->invert = $dateInterval->invert;
+        $interval->days = $dateInterval->days;
+        return $interval;
     }
 
     /**
@@ -25,8 +33,14 @@ class DateInterval extends \DateInterval implements \JsonSerializable
      */
     public static function fromParts($years = 0, $months = 0, $days = 0, $hours = 0, $minutes = 0, $seconds = 0)
     {
-        $intervalSpec = sprintf('P%dY%dM%dDT%dH%dM%dS', $years, $months, $days, $hours, $minutes, $seconds);
-        return self::fromString($intervalSpec);
+        $interval = new self('P0D');
+        $interval->y = $years;
+        $interval->m = $months;
+        $interval->d = $days;
+        $interval->h = $hours;
+        $interval->i = $minutes;
+        $interval->s = $seconds;
+        return $interval;
     }
 
     /**
@@ -43,7 +57,7 @@ class DateInterval extends \DateInterval implements \JsonSerializable
      */
     public function __toString()
     {
-        return self::toString($this);
+        return $this->toString();
     }
 
     /**
@@ -51,35 +65,34 @@ class DateInterval extends \DateInterval implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return self::toString($this);
+        return $this->toString();
     }
 
     /**
-     * @param \DateInterval $interval
      * @return string
      */
-    private static function toString(\DateInterval $interval)
+    public function toString()
     {
         $dateString = '';
-        if ($interval->y !== 0) {
-            $dateString .= $interval->y . 'Y';
+        if ($this->y !== 0) {
+            $dateString .= $this->y . 'Y';
         }
-        if ($interval->m !== 0) {
-            $dateString .= $interval->m . 'M';
+        if ($this->m !== 0) {
+            $dateString .= $this->m . 'M';
         }
-        if ($interval->d !== 0) {
-            $dateString .= $interval->d . 'D';
+        if ($this->d !== 0) {
+            $dateString .= $this->d . 'D';
         }
 
         $timeString = '';
-        if ($interval->h !== 0) {
-            $timeString .= $interval->h . 'H';
+        if ($this->h !== 0) {
+            $timeString .= $this->h . 'H';
         }
-        if ($interval->i !== 0) {
-            $timeString .= $interval->i . 'M';
+        if ($this->i !== 0) {
+            $timeString .= $this->i . 'M';
         }
-        if ($interval->s !== 0) {
-            $timeString .= $interval->s . 'S';
+        if ($this->s !== 0) {
+            $timeString .= $this->s . 'S';
         }
 
         if ($timeString === '') {
