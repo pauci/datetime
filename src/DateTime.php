@@ -5,14 +5,14 @@ namespace Pauci\DateTime;
 use DateTimeZone;
 
 /**
- * @method DateTime add(\DateInterval $interval)
- * @method DateTime sub(\DateInterval $interval)
- * @method DateTime modify($modify)
- * @method DateTime setDate($year, $month, $day)
- * @method DateTime setISODate($year, $week, $day = 1)
- * @method DateTime setTime($hour, $minute, $second = 0)
- * @method DateTime setTimestamp($unixtimestamp)
- * @method DateTime setTimezone(DateTimeZone $timezone)
+ * @method DateTimeInterface add(\DateInterval $interval)
+ * @method DateTimeInterface sub(\DateInterval $interval)
+ * @method DateTimeInterface modify($modify)
+ * @method DateTimeInterface setDate($year, $month, $day)
+ * @method DateTimeInterface setISODate($year, $week, $day = 1)
+ * @method DateTimeInterface setTime($hour, $minute, $second = 0)
+ * @method DateTimeInterface setTimestamp($unixtimestamp)
+ * @method DateTimeInterface setTimezone(DateTimeZone $timezone)
  */
 class DateTime extends \DateTimeImmutable implements DateTimeInterface
 {
@@ -41,7 +41,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function now()
     {
@@ -49,7 +49,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function microsecondsNow()
     {
@@ -59,7 +59,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function fromString($time, DateTimeZone $timezone = null)
     {
@@ -70,7 +70,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param string $format
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function fromFormat($format, $time, DateTimeZone $timezone = null)
     {
@@ -80,7 +80,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @param int $timestamp
      * @param DateTimeZone $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function fromTimestamp($timestamp, DateTimeZone $timezone = null)
     {
@@ -89,7 +89,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
 
     /**
      * @param \DateTimeInterface $dateTime
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function fromDateTime(\DateTimeInterface $dateTime)
     {
@@ -100,7 +100,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param string $format
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function createFromFormat($format, $time, $timezone = null)
     {
@@ -109,7 +109,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
 
     /**
      * @param \DateTime $dateTime
-     * @return DateTime
+     * @return DateTimeInterface
      */
     public static function createFromMutable($dateTime)
     {
