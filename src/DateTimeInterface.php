@@ -2,6 +2,16 @@
 
 namespace Pauci\DateTime;
 
+/**
+ * @method DateTimeInterface add(\DateInterval $interval)
+ * @method DateTimeInterface sub(\DateInterval $interval)
+ * @method DateTimeInterface modify($modify)
+ * @method DateTimeInterface setDate($year, $month, $day)
+ * @method DateTimeInterface setISODate($year, $week, $day = 1)
+ * @method DateTimeInterface setTime($hour, $minute, $second = 0)
+ * @method DateTimeInterface setTimestamp($unixtimestamp)
+ * @method DateTimeInterface setTimezone(\DateTimeZone $timezone)
+ */
 interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
 {
     /**
