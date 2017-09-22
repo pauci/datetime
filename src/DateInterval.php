@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
@@ -7,8 +8,9 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     /**
      * @param \DateInterval $dateInterval
      * @return DateInterval
+     * @throws \Exception
      */
-    public static function fromDateInterval(\DateInterval $dateInterval)
+    public static function fromDateInterval(\DateInterval $dateInterval): self
     {
         $interval = new self('P0D');
         $interval->y = $dateInterval->y;
@@ -30,9 +32,16 @@ class DateInterval extends \DateInterval implements \JsonSerializable
      * @param int $minutes
      * @param int $seconds
      * @return DateInterval
+     * @throws \Exception
      */
-    public static function fromParts($years = 0, $months = 0, $days = 0, $hours = 0, $minutes = 0, $seconds = 0)
-    {
+    public static function fromParts(
+        int $years = 0,
+        int $months = 0,
+        int $days = 0,
+        int $hours = 0,
+        int $minutes = 0,
+        int $seconds = 0
+    ): self {
         $interval = new self('P0D');
         $interval->y = $years;
         $interval->m = $months;
@@ -46,8 +55,9 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     /**
      * @param string $interval
      * @return DateInterval
+     * @throws \Exception
      */
-    public static function fromString($interval)
+    public static function fromString(string $interval): self
     {
         return new self($interval);
     }
@@ -55,7 +65,7 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -63,7 +73,7 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     /**
      * @return string
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->toString();
     }
@@ -71,7 +81,7 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     /**
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         $dateString = '';
         if ($this->y !== 0) {
