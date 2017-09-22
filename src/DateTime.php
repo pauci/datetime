@@ -10,7 +10,7 @@ use DateTimeZone;
  * @method DateTimeInterface modify($modify)
  * @method DateTimeInterface setDate($year, $month, $day)
  * @method DateTimeInterface setISODate($year, $week, $day = 1)
- * @method DateTimeInterface setTime($hour, $minute, $second = 0)
+ * @method DateTimeInterface setTime($hour, $minute, $second = 0, $microseconds = 0)
  * @method DateTimeInterface setTimestamp($unixtimestamp)
  * @method DateTimeInterface setTimezone(DateTimeZone $timezone)
  */
@@ -24,7 +24,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return DateTimeFactoryInterface
      */
-    public static function getFactory()
+    public static function getFactory(): DateTimeFactoryInterface
     {
         if (!self::$factory) {
             self::$factory = new DateTimeFactory();
@@ -35,7 +35,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @param DateTimeFactoryInterface $factory
      */
-    public static function setFactory(DateTimeFactoryInterface $factory)
+    public static function setFactory(DateTimeFactoryInterface $factory): void
     {
         self::$factory = $factory;
     }
@@ -43,7 +43,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return DateTimeInterface
      */
-    public static function now()
+    public static function now(): DateTimeInterface
     {
         return self::getFactory()->now();
     }
@@ -51,7 +51,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return DateTimeInterface
      */
-    public static function microsecondsNow()
+    public static function microsecondsNow(): DateTimeInterface
     {
         return self::getFactory()->microsecondsNow();
     }
@@ -61,7 +61,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
-    public static function fromString($time, DateTimeZone $timezone = null)
+    public static function fromString(string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         return self::getFactory()->fromString($time, $timezone);
     }
@@ -72,7 +72,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
-    public static function fromFormat($format, $time, DateTimeZone $timezone = null)
+    public static function fromFormat(string $format, string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         return self::getFactory()->fromFormat($format, $time, $timezone);
     }
@@ -82,7 +82,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param DateTimeZone $timezone
      * @return DateTimeInterface
      */
-    public static function fromTimestamp($timestamp, DateTimeZone $timezone = null)
+    public static function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
     {
         return self::getFactory()->fromTimestamp($timestamp, $timezone);
     }
@@ -91,7 +91,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param \DateTimeInterface $dateTime
      * @return DateTimeInterface
      */
-    public static function fromDateTime(\DateTimeInterface $dateTime)
+    public static function fromDateTime(\DateTimeInterface $dateTime): DateTimeInterface
     {
         return self::getFactory()->fromDateTime($dateTime);
     }
@@ -102,7 +102,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
-    public static function createFromFormat($format, $time, $timezone = null)
+    public static function createFromFormat($format, $time, $timezone = null): DateTimeInterface
     {
         return self::fromFormat($format, $time, $timezone);
     }
@@ -111,7 +111,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param \DateTime $dateTime
      * @return DateTimeInterface
      */
-    public static function createFromMutable($dateTime)
+    public static function createFromMutable($dateTime): DateTimeInterface
     {
         return self::fromDateTime($dateTime);
     }
@@ -120,8 +120,9 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param \DateTimeInterface $dateTime
      * @param bool $absolute
      * @return DateInterval
+     * @throws \Exception
      */
-    public function diff($dateTime, $absolute = false)
+    public function diff($dateTime, $absolute = false): DateInterval
     {
         return DateInterval::fromDateInterval(
             parent::diff($dateTime, $absolute)
@@ -131,7 +132,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return DateTimeInterface
      */
-    public function inDefaultTimezone()
+    public function inDefaultTimezone(): DateTimeInterface
     {
         return $this->setTimezone(new DateTimeZone(date_default_timezone_get()));
     }
@@ -139,7 +140,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         return $this->format($this->getFormat());
     }
@@ -147,7 +148,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return string
      */
-    private function getFormat()
+    private function getFormat(): string
     {
         return $this->format('u') === '000000' ? \DateTime::ATOM : 'Y-m-d\TH:i:s.uP';
     }
@@ -155,7 +156,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -163,7 +164,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     /**
      * @return string
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->toString();
     }

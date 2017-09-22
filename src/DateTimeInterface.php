@@ -8,7 +8,7 @@ namespace Pauci\DateTime;
  * @method DateTimeInterface modify($modify)
  * @method DateTimeInterface setDate($year, $month, $day)
  * @method DateTimeInterface setISODate($year, $week, $day = 1)
- * @method DateTimeInterface setTime($hour, $minute, $second = 0)
+ * @method DateTimeInterface setTime($hour, $minute, $second = 0, $microseconds = 0)
  * @method DateTimeInterface setTimestamp($unixtimestamp)
  * @method DateTimeInterface setTimezone(\DateTimeZone $timezone)
  */
@@ -17,10 +17,10 @@ interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
     /**
      * @return DateTimeInterface
      */
-    public function inDefaultTimezone();
+    public function inDefaultTimezone(): DateTimeInterface;
 
     /**
      * @return string
      */
-    public function toString();
+    public function toString(): string;
 }

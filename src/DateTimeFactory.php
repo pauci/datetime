@@ -6,22 +6,16 @@ use DateTimeZone;
 
 class DateTimeFactory implements DateTimeFactoryInterface
 {
-    /**
-     * @return DateTime
-     */
-    public function now()
+    public function now(): DateTimeInterface
     {
         return new DateTime();
     }
 
-    /**
-     * @return DateTime
-     */
-    public function microsecondsNow()
+    public function microsecondsNow(): DateTimeInterface
     {
         $t = microtime(true);
         $micro = sprintf('%06d', ($t - floor($t)) * 1000000);
-        $time = date('Y-m-d H:i:s.' . $micro, $t);
+        $time = date('Y-m-d H:i:s.' . $micro, (int) $t);
 
         return $this->fromString($time, $this->getDefaultTimezone());
     }
@@ -29,9 +23,9 @@ class DateTimeFactory implements DateTimeFactoryInterface
     /**
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
-    public function fromString($time, DateTimeZone $timezone = null)
+    public function fromString(string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         return new DateTime($time, $timezone);
     }
@@ -40,21 +34,19 @@ class DateTimeFactory implements DateTimeFactoryInterface
      * @param string $format
      * @param string $time
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      * @throws \InvalidArgumentException
      */
-    public function fromFormat($format, $time, DateTimeZone $timezone = null)
+    public function fromFormat(string $format, string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         $dateTime = $timezone !== null
             ? \DateTime::createFromFormat($format, $time, $timezone)
             : \DateTime::createFromFormat($format, $time);
 
         if (!$dateTime) {
-            throw new \InvalidArgumentException(sprintf(
-                'Failed to parse time string "%s" formatted as "%s"',
-                $time,
-                $format
-            ));
+            throw new \InvalidArgumentException(
+                sprintf('Failed to parse time string "%s" formatted as "%s"', $time, $format)
+            );
         }
 
         return $this->fromDateTime($dateTime);
@@ -63,9 +55,9 @@ class DateTimeFactory implements DateTimeFactoryInterface
     /**
      * @param int $timestamp
      * @param DateTimeZone|null $timezone
-     * @return DateTime
+     * @return DateTimeInterface
      */
-    public function fromTimestamp($timestamp, DateTimeZone $timezone = null)
+    public function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
     {
         return $this->fromString('@' . $timestamp)
             ->setTimezone($timezone ?: $this->getDefaultTimezone());
@@ -73,9 +65,9 @@ class DateTimeFactory implements DateTimeFactoryInterface
 
     /**
      * @param \DateTimeInterface $dateTime
-     * @return DateTime
+     * @return DateTimeInterface
      */
-    public function fromDateTime(\DateTimeInterface $dateTime)
+    public function fromDateTime(\DateTimeInterface $dateTime): DateTimeInterface
     {
         return $this->fromString($dateTime->format('Y-m-d H:i:s.u'), $dateTime->getTimezone());
     }
@@ -83,7 +75,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
     /**
      * @return DateTimeZone
      */
-    private function getDefaultTimezone()
+    private function getDefaultTimezone(): DateTimeZone
     {
         return new DateTimeZone(date_default_timezone_get());
     }
