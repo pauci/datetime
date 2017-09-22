@@ -9,6 +9,12 @@ use Pauci\DateTime\DateTimeFactory;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
+    public function testGetFactory()
+    {
+        $defaultFactory = DateTime::getFactory();
+        self::assertInstanceOf(DateTimeFactory::class, $defaultFactory);
+    }
+
     public function testSetFactory()
     {
         $setFactory = new DateTimeFactory();
@@ -49,6 +55,25 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(DateTime::class, $dateTime);
 
         self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
+    }
+
+    public function testCreateFromFormatWithTimeZone()
+    {
+        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
+        self::assertInstanceOf(DateTime::class, $dateTime);
+
+        self::assertEquals('2016-05-16T14:09:10+00:00', (string) $dateTime);
+    }
+
+    public function testCreateFromInvalidFormat()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Failed to parse time string "2016-05-16 14:09:10" formatted as "invalid"');
+
+        $dateTime = DateTime::createFromFormat('invalid', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
+        self::assertInstanceOf(DateTime::class, $dateTime);
+
+        self::assertEquals('2016-05-16T14:09:10+00:00', (string) $dateTime);
     }
 
     public function testCreateFromMutable()
