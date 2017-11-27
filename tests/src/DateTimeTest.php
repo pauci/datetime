@@ -262,7 +262,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateTime = DateTime::now();
 
         $serialized = serialize($dateTime);
-        $unserializedDateTime = unserialize($serialized);
+        $unserializedDateTime = unserialize($serialized, ['allowed_classes' => [DateTime::class]]);
 
         self::assertEquals($dateTime, $unserializedDateTime);
         self::assertEquals($dateTime->getTimezone(), $unserializedDateTime->getTimezone());
