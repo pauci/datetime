@@ -34,10 +34,17 @@ interface DateTimeFactoryInterface
 
     /**
      * @param int $timestamp
-     * @param DateTimeZone $timezone
+     * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
     public function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface;
+
+    /**
+     * @param float $timestamp
+     * @param DateTimeZone|null $timezone
+     * @return DateTimeInterface
+     */
+    public function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): DateTimeInterface;
 
     /**
      * @param \DateTimeInterface $dateTime

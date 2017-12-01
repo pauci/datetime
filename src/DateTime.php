@@ -89,6 +89,16 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
+     * @param float $timestamp
+     * @param DateTimeZone|null $timezone
+     * @return DateTimeInterface
+     */
+    public static function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): DateTimeInterface
+    {
+        return self::getFactory()->fromFloatTimestamp($timestamp, $timezone);
+    }
+
+    /**
      * @param \DateTimeInterface $dateTime
      * @return DateTimeInterface
      */

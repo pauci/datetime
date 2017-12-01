@@ -14,11 +14,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
 
     public function microsecondsNow(): DateTimeInterface
     {
-        $t = microtime(true);
-        $micro = sprintf('%06d', ($t - floor($t)) * 1000000);
-        $time = date('Y-m-d H:i:s.' . $micro, (int) $t);
-
-        return $this->fromString($time, $this->getDefaultTimezone());
+        return $this->fromFloatTimestamp(microtime(true));
     }
 
     /**
@@ -61,7 +57,22 @@ class DateTimeFactory implements DateTimeFactoryInterface
     public function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
     {
         return $this->fromString('@' . $timestamp)
-            ->setTimezone($timezone ?: $this->getDefaultTimezone());
+            ->setTimezone($timezone ?? $this->getDefaultTimezone());
+    }
+
+    /**
+     * @param float $timestamp
+     * @param DateTimeZone|null $timezone
+     * @return DateTimeInterface
+     */
+    public function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): DateTimeInterface
+    {
+        $integerPart = (int) floor($timestamp);
+        $fractionalPart = substr(sprintf('%.6f', $timestamp - $integerPart), 2);
+        $time = date('Y-m-d H:i:s.' . $fractionalPart, $integerPart);
+
+        $dateTime = $this->fromString($time);
+        return $timezone ? $dateTime->setTimezone($timezone) : $dateTime;
     }
 
     /**

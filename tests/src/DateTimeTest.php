@@ -80,15 +80,34 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTime = DateTime::createFromMutable(new \DateTime('2016-05-16 14:09:10'));
         self::assertInstanceOf(DateTime::class, $dateTime);
-
         self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
+
+        $dateTime = DateTime::createFromMutable(new \DateTime('2016-05-16 14:09:10-04:00'));
+        self::assertEquals('2016-05-16T14:09:10-04:00', (string) $dateTime);
     }
 
     public function testFromTimestamp()
     {
         $dateTime = DateTime::fromTimestamp(1463490311);
-
         self::assertEquals('2016-05-17T15:05:11+02:00', (string) $dateTime);
+
+        $dateTimeTz = DateTime::fromTimestamp(1463490311, new \DateTimeZone('+0400'));
+        self::assertEquals('2016-05-17T17:05:11+04:00', (string) $dateTimeTz);
+    }
+
+    public function testFromFloatTimestamp()
+    {
+        $dateTime = DateTime::fromFloatTimestamp(1512148033.000005);
+        self::assertEquals('2017-12-01T18:07:13.000005+01:00', (string) $dateTime);
+
+        $dateTimeTz = DateTime::fromFloatTimestamp(1512148033.876000, new \DateTimeZone('-0300'));
+        self::assertEquals('2017-12-01T14:07:13.876000-03:00', (string) $dateTimeTz);
+
+        $dateTimeNeg = DateTime::fromFloatTimestamp(-1, new \DateTimeZone('GMT'));
+        self::assertEquals('1969-12-31T23:59:59+00:00', (string) $dateTimeNeg);
+
+        $dateTimeNegFract = DateTime::fromFloatTimestamp(-0.000001, new \DateTimeZone('GMT'));
+        self::assertEquals('1969-12-31T23:59:59.999999+00:00', (string) $dateTimeNegFract);
     }
 
     public function testFromDateTime()
