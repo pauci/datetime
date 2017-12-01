@@ -135,13 +135,11 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertTrue($dateTime3 > $dateTime4);
         self::assertFalse($dateTime3 <= $dateTime4);
 
-        if (PHP_MAJOR_VERSION >= 7) {
-            $dateTime5 = DateTime::fromString('2016-05-12 22:37:46.000001');
-            $dateTime6 = DateTime::fromString('2016-05-12 22:37:46');
+        $dateTime5 = DateTime::fromString('2016-05-12 22:37:46.000001');
+        $dateTime6 = DateTime::fromString('2016-05-12 22:37:46');
 
-            self::assertTrue($dateTime5 > $dateTime6);
-            self::assertFalse($dateTime5 <= $dateTime6);
-        }
+        self::assertTrue($dateTime5 > $dateTime6);
+        self::assertFalse($dateTime5 <= $dateTime6);
     }
 
     public function testAdd()
