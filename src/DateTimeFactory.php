@@ -24,7 +24,15 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function fromString(string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
-        return new DateTime($time, $timezone);
+        try {
+            return new DateTime($time, $timezone);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            if (0 === strpos($message, 'DateTimeImmutable::__construct(): ')) {
+                $message = substr($message, 34);
+            }
+            throw new Exception\InvalidTimeStringException($message, $e->getCode(), $e);
+        }
     }
 
     /**
@@ -41,7 +49,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
             : \DateTime::createFromFormat($format, $time);
 
         if (!$dateTime) {
-            throw new \InvalidArgumentException(
+            throw new Exception\InvalidTimeStringException(
                 sprintf('Failed to parse time string "%s" formatted as "%s"', $time, $format)
             );
         }
