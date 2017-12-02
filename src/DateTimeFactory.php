@@ -44,9 +44,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function fromFormat(string $format, string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
-        $dateTime = $timezone !== null
-            ? \DateTime::createFromFormat($format, $time, $timezone)
-            : \DateTime::createFromFormat($format, $time);
+        $dateTime = \DateTime::createFromFormat($format, $time, $timezone);
 
         if (!$dateTime) {
             throw new Exception\InvalidTimeStringException(
