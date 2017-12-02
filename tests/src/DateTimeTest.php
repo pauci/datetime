@@ -230,14 +230,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetTime()
     {
-        $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
-        $dateTime2 = $dateTime1->setTime(12, 10, 15);
+        $dateTime1 = DateTime::fromString('2016-05-12 22:37:46.123456+02:00');
+        $dateTime2 = $dateTime1->setTime(12, 10, 15, 98765);
 
         self::assertInstanceOf(DateTime::class, $dateTime2);
-        self::assertEquals('2016-05-12T12:10:15+02:00', (string) $dateTime2);
+        self::assertEquals('2016-05-12T12:10:15.098765+02:00', (string) $dateTime2);
 
         // Immutability check
-        self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
+        self::assertEquals('2016-05-12T22:37:46.123456+02:00', (string) $dateTime1);
     }
 
     public function testSetTimestamp()
