@@ -56,7 +56,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($phpDateTime->getTimezone(), $dateTime1->getTimezone());
     }
 
-    public function testCreateFromString()
+    public function testFromString()
     {
         $dateTime = DateTime::fromString('2017-12-02 02:20:03');
 
@@ -64,7 +64,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2017-12-02T02:20:03+01:00', (string) $dateTime);
     }
 
-    public function testCreateFromInvalidString()
+    public function testFromInvalidString()
     {
         $this->expectException(InvalidTimeStringException::class);
         $this->expectExceptionMessage('Failed to parse time string (?) at position 0 (?): Unexpected character');
