@@ -16,6 +16,12 @@ namespace Pauci\DateTime;
 interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
 {
     /**
+     * @param DateTimeInterface $dateTime
+     * @return bool
+     */
+    public function equals(self $dateTime): bool;
+
+    /**
      * @return DateTimeInterface
      */
     public function inDefaultTimezone(): DateTimeInterface;

@@ -141,6 +141,15 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
     }
 
     /**
+     * @param DateTimeInterface $dateTime
+     * @return bool
+     */
+    public function equals(DateTimeInterface $dateTime): bool
+    {
+        return $this == $dateTime;
+    }
+
+    /**
      * @return DateTimeInterface
      */
     public function inDefaultTimezone(): DateTimeInterface

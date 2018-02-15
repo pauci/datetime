@@ -275,6 +275,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('P1Y10M15DT21H46M17S', (string) $interval);
     }
 
+    public function testEquals()
+    {
+        $dateTime1 = DateTime::fromString('2017-01-10T12:20:11+01:00');
+        $dateTime2 = DateTime::fromString('2017-01-10T12:20:11');
+        $dateTime3 = DateTime::fromString('2017-01-10T12:20:11+00:00');
+        $dateTime4 = DateTime::fromString('2015-02-22T14:33:54');
+        $dateTime5 = DateTime::fromString('2017-01-10T09:20:11-02:00');
+
+        self::assertTrue($dateTime1->equals($dateTime2));
+        self::assertFalse($dateTime1->equals($dateTime3));
+        self::assertFalse($dateTime1->equals($dateTime4));
+        self::assertTrue($dateTime1->equals($dateTime5));
+    }
+
     public function testInDefaultTimezone()
     {
         $dateTime = DateTime::fromString('2016-05-12T22:37:46.123456-05:00')->inDefaultTimezone();
