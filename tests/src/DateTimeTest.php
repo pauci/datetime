@@ -308,7 +308,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTime = DateTime::now();
 
-        self::assertEquals('"' . $dateTime->toString() . '"', json_encode($dateTime));
+        self::assertEquals('{"now":"' . $dateTime->toString() . '"}', json_encode(['now' => $dateTime]));
     }
 
     public function testSerialize()

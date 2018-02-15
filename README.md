@@ -21,7 +21,7 @@ date_default_timezone_set('Europe/Bratislava');
 
 $now = DateTime::now();
 echo $now;              // 2016-05-20T14:30:54+02:00
-echo json_encode($now); // "2016-05-20T14:30:54+02:00"
+echo json_encode(['now' => $now]); // {"now":"2016-05-20T14:30:54+02:00"}
 
 echo DateTime::microsecondsNow(); // 2016-05-20T14:30:54.074420+02:00
 
