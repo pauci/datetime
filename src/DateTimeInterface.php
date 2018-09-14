@@ -30,4 +30,9 @@ interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
      * @return string
      */
     public function toString(): string;
+
+    /**
+     * @return string
+     */
+    public function __toString(): string;
 }
