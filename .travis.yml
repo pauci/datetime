@@ -29,7 +29,7 @@ install:
 
 script:
   - composer lint
-  - composer phpstan
+  - composer stan
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
 
