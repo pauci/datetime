@@ -2,6 +2,15 @@
     "name": "pauci/datetime",
     "description": "Enhanced DateTime, DateTimeImmutable and DateInterval objects",
     "type": "library",
+    "keywords": [
+        "datetime",
+        "dateinterval",
+        "immutable",
+        "microsecond",
+        "iso8601",
+        "json"
+    ],
+    "homepage": "https://github.com/pauci/datetime",
     "license": "MIT",
     "authors": [
         {
@@ -9,13 +18,22 @@
             "email": "pauci.sk@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/pauci/datetime/issues"
+    },
     "require": {
         "php": "^7.1",
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.3",
-        "squizlabs/php_codesniffer": "^2.6"
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "phpstan/phpstan-phpunit": "^0.10.0",
+        "phpstan/phpstan-shim": "^0.10.3",
+        "phpunit/phpunit": "^7.3",
+        "squizlabs/php_codesniffer": "^3.3"
+    },
+    "suggest": {
+        "pauci/datetime-doctrine": "Allows the use of pauci/datetime value objects as Doctrine field types."
     },
     "autoload": {
         "psr-4": {"Pauci\\DateTime\\": "src/"}
@@ -23,13 +41,21 @@
     "autoload-dev": {
         "psr-4": {"Pauci\\DateTime\\Test\\": "tests/src/"}
     },
+    "config": {
+        "sort-packages": true
+    },
     "scripts": {
         "check": [
-            "@cs",
+            "@lint",
+            "@cs-check",
+            "@stan",
             "@test"
         ],
-        "cs": "phpcs",
+        "lint": "parallel-lint src tests",
+        "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit"
+        "stan": "phpstan analyse --no-progress",
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-clover clover.xml"
     }
 }

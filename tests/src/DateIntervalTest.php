@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Pauci\DateTime\Test;
 
 use Pauci\DateTime\DateInterval;
+use PHPUnit\Framework\TestCase;
 
-class DateIntervalTest extends \PHPUnit_Framework_TestCase
+class DateIntervalTest extends TestCase
 {
-    public static function dateIntervalStrings()
+    public static function dateIntervalStrings(): array
     {
         return [
             ['P11Y12M13DT14H15M16S', [11, 12, 13, 14, 15, 16]],
@@ -24,10 +25,8 @@ class DateIntervalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dateIntervalStrings
-     * @param string $intervalSpec
-     * @param array $parts
      */
-    public function testFromDateInterval($intervalSpec, array $parts)
+    public function testFromDateInterval(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromDateInterval(new \DateInterval($intervalSpec));
 
@@ -52,10 +51,8 @@ class DateIntervalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dateIntervalStrings
-     * @param string $intervalSpec
-     * @param array $parts
      */
-    public function testFromString($intervalSpec, array $parts)
+    public function testFromString(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromString($intervalSpec);
 
@@ -71,10 +68,8 @@ class DateIntervalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dateIntervalStrings
-     * @param string $intervalSpec
-     * @param array $parts
      */
-    public function testToString($intervalSpec, array $parts)
+    public function testToString(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromParts($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 
@@ -85,10 +80,8 @@ class DateIntervalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dateIntervalStrings
-     * @param string $intervalSpec
-     * @param array $parts
      */
-    public function testJsonEncode($intervalSpec, array $parts)
+    public function testJsonEncode(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromParts($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 

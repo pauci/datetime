@@ -7,17 +7,18 @@ use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTime;
 use Pauci\DateTime\DateTimeFactory;
 use Pauci\DateTime\Exception\InvalidTimeStringException;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeTest extends \PHPUnit_Framework_TestCase
+class DateTimeTest extends TestCase
 {
-    public function testGetFactory()
+    public function testGetFactory(): void
     {
         $defaultFactory = DateTime::getFactory();
 
         self::assertInstanceOf(DateTimeFactory::class, $defaultFactory);
     }
 
-    public function testSetFactory()
+    public function testSetFactory(): void
     {
         $setFactory = new DateTimeFactory();
         DateTime::setFactory($setFactory);
@@ -26,7 +27,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertSame($setFactory, $getFactory);
     }
 
-    public function testNow()
+    public function testNow(): void
     {
         $dateTime = DateTime::now();
 
@@ -39,14 +40,15 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertLessThanOrEqual(1, $diff);
     }
 
-    public function testMicrosecondsNow()
+    public function testMicrosecondsNow(): void
     {
         $dateTime1 = DateTime::microsecondsNow();
+        usleep(1);
+        $dateTime2 = DateTime::microsecondsNow();
 
         self::assertInstanceOf(DateTime::class, $dateTime1);
 
-        $dateTime2 = DateTime::microsecondsNow();
-        $diff = $dateTime2->format('U.u') - $dateTime1->format('U.u');
+        $diff = (float) $dateTime2->format('U.u') - (float) $dateTime1->format('U.u');
 
         self::assertGreaterThan(0, $diff);
         self::assertLessThan(1, $diff);
@@ -56,7 +58,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($phpDateTime->getTimezone(), $dateTime1->getTimezone());
     }
 
-    public function testFromString()
+    public function testFromString(): void
     {
         $dateTime = DateTime::fromString('2017-12-02 02:20:03');
 
@@ -64,7 +66,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2017-12-02T02:20:03+01:00', (string) $dateTime);
     }
 
-    public function testFromInvalidString()
+    public function testFromInvalidString(): void
     {
         $this->expectException(InvalidTimeStringException::class);
         $this->expectExceptionMessage('Failed to parse time string (?) at position 0 (?): Unexpected character');
@@ -72,7 +74,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         DateTime::fromString('?');
     }
 
-    public function testCreateFromFormat()
+    public function testCreateFromFormat(): void
     {
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10');
 
@@ -80,7 +82,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:09:10+02:00', (string) $dateTime);
     }
 
-    public function testCreateFromFormatWithTimeZone()
+    public function testCreateFromFormatWithTimeZone(): void
     {
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
 
@@ -88,7 +90,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:09:10+00:00', (string) $dateTime);
     }
 
-    public function testCreateFromInvalidFormat()
+    public function testCreateFromInvalidFormat(): void
     {
         $this->expectException(InvalidTimeStringException::class);
         $this->expectExceptionMessage('Failed to parse time string "2016-05-16 14:09:10" formatted as "invalid"');
@@ -96,7 +98,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         DateTime::createFromFormat('invalid', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
     }
 
-    public function testCreateFromMutable()
+    public function testCreateFromMutable(): void
     {
         $dateTime = DateTime::createFromMutable(new \DateTime('2016-05-16 14:09:10'));
 
@@ -108,7 +110,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:09:10-04:00', (string) $dateTime);
     }
 
-    public function testFromTimestamp()
+    public function testFromTimestamp(): void
     {
         $dateTime = DateTime::fromTimestamp(1463490311);
         self::assertEquals('2016-05-17T15:05:11+02:00', (string) $dateTime);
@@ -117,7 +119,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-17T17:05:11+04:00', (string) $dateTimeTz);
     }
 
-    public function testFromFloatTimestamp()
+    public function testFromFloatTimestamp(): void
     {
         $dateTime = DateTime::fromFloatTimestamp(1512148033.000005);
         self::assertEquals('2017-12-01T18:07:13.000005+01:00', (string) $dateTime);
@@ -132,7 +134,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('1969-12-31T23:59:59.999999+00:00', (string) $dateTimeNegFract);
     }
 
-    public function testFromDateTime()
+    public function testFromDateTime(): void
     {
         $phpDateTime = new \DateTime('2016-05-16 14:32:51.678991');
         $dateTime = DateTime::fromDateTime($phpDateTime);
@@ -141,7 +143,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-16T14:32:51.678991+02:00', (string) $dateTime);
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = DateTime::fromString(
@@ -164,7 +166,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($dateTime5 <= $dateTime6);
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $interval = new DateInterval('P1D');
@@ -178,7 +180,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testSub()
+    public function testSub(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $interval = new DateInterval('P1D');
@@ -192,7 +194,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testModify()
+    public function testModify(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = $dateTime1->modify('+1 day');
@@ -204,7 +206,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testSetDate()
+    public function testSetDate(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = $dateTime1->setDate(2011, 10, 22);
@@ -216,7 +218,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testSetISODate()
+    public function testSetISODate(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = $dateTime1->setISODate(2011, 42, 6);
@@ -228,7 +230,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testSetTime()
+    public function testSetTime(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46.123456+02:00');
         $dateTime2 = $dateTime1->setTime(12, 10, 15, 98765);
@@ -240,7 +242,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46.123456+02:00', (string) $dateTime1);
     }
 
-    public function testSetTimestamp()
+    public function testSetTimestamp(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = $dateTime1->setTimestamp(1463490311);
@@ -252,7 +254,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testSetTimezone()
+    public function testSetTimezone(): void
     {
         $dateTime1 = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime2 = $dateTime1->setTimezone(new \DateTimeZone('America/New_York'));
@@ -264,7 +266,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
     }
 
-    public function testDiff()
+    public function testDiff(): void
     {
         $dateTime1 = DateTime::fromString('2017-01-10 12:20:11');
         $dateTime2 = DateTime::fromString('2015-02-22 14:33:54');
@@ -275,7 +277,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('P1Y10M15DT21H46M17S', (string) $interval);
     }
 
-    public function testEquals()
+    public function testEquals(): void
     {
         $dateTime1 = DateTime::fromString('2017-01-10T12:20:11+01:00');
         $dateTime2 = DateTime::fromString('2017-01-10T12:20:11');
@@ -289,14 +291,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertTrue($dateTime1->equals($dateTime5));
     }
 
-    public function testInDefaultTimezone()
+    public function testInDefaultTimezone(): void
     {
         $dateTime = DateTime::fromString('2016-05-12T22:37:46.123456-05:00')->inDefaultTimezone();
 
         self::assertEquals('2016-05-13T05:37:46.123456+02:00', (string) $dateTime);
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $dateTime = DateTime::fromString('2016-05-12 22:37:46.123456-05:00');
 
@@ -304,14 +306,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('2016-05-12T22:37:46.123456-05:00', sprintf('%s', $dateTime));
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $dateTime = DateTime::now();
 
         self::assertEquals('{"now":"' . $dateTime->toString() . '"}', json_encode(['now' => $dateTime]));
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $dateTime = DateTime::now();
 
