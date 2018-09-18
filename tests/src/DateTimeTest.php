@@ -7,8 +7,9 @@ use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTime;
 use Pauci\DateTime\DateTimeFactory;
 use Pauci\DateTime\Exception\InvalidTimeStringException;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeTest extends \PHPUnit_Framework_TestCase
+class DateTimeTest extends TestCase
 {
     public function testGetFactory(): void
     {
