@@ -18,7 +18,7 @@ use DateTimeZone;
 class DateTime extends \DateTimeImmutable implements DateTimeInterface
 {
     /**
-     * @var DateTimeFactoryInterface
+     * @var DateTimeFactoryInterface|null
      */
     private static $factory;
 

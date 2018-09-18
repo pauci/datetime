@@ -48,7 +48,7 @@ class DateTimeTest extends TestCase
 
         self::assertInstanceOf(DateTime::class, $dateTime1);
 
-        $diff = $dateTime2->format('U.u') - $dateTime1->format('U.u');
+        $diff = (float) $dateTime2->format('U.u') - (float) $dateTime1->format('U.u');
 
         self::assertGreaterThan(0, $diff);
         self::assertLessThan(1, $diff);
