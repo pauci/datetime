@@ -16,6 +16,13 @@ namespace Pauci\DateTime;
 interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
 {
     /**
+     * @param \DateTimeInterface $datetime
+     * @param bool $absolute
+     * @return DateInterval
+     */
+    public function diff($datetime, $absolute = false): DateInterval;
+
+    /**
      * @param DateTimeInterface $dateTime
      * @return bool
      */
