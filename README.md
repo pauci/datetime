@@ -1,9 +1,11 @@
 # pauci/datetime
 
-[![Latest Stable Version](https://poser.pugx.org/pauci/datetime/v/stable)](https://packagist.org/packages/pauci/datetime)
-[![Total Downloads](https://poser.pugx.org/pauci/datetime/downloads)](https://packagist.org/packages/pauci/datetime)
-[![Build Status](https://travis-ci.org/pauci/datetime.svg?branch=master)](https://travis-ci.org/pauci/datetime)
-[![Coverage Status](https://coveralls.io/repos/pauci/datetime/badge.png?branch=master)](https://coveralls.io/r/pauci/datetime)
+[![Source Code][badge-source]][source]
+[![Latest Version][badge-release]][release]
+[![Software License][badge-license]][license]
+[![Build Status][badge-build]][build]
+[![Coverage Status][badge-coverage]][coverage]
+[![Total Downloads][badge-downloads]][downloads]
 
 Provides enhanced DateTime and DateInterval objects
 - extends built-in DateTimeImmutable object (to discourage the use of mutable version)
@@ -27,3 +29,19 @@ echo DateTime::microsecondsNow(); // 2016-05-20T14:30:54.074420+02:00
 
 echo DateTime::fromFloatTimestamp(1512148033.000005); // 2017-12-01T18:07:13.000005+01:00
 ```
+
+
+
+[badge-source]: https://img.shields.io/badge/source-pauci/datetime-blue.svg?style=flat-square
+[badge-release]: https://img.shields.io/packagist/v/pauci/datetime.svg?style=flat-square
+[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[badge-build]: https://img.shields.io/travis/pauci/datetime/master.svg?style=flat-square
+[badge-coverage]: https://img.shields.io/coveralls/pauci/datetime/master.svg?style=flat-square
+[badge-downloads]: https://img.shields.io/packagist/dt/pauci/datetime.svg?style=flat-square
+
+[source]: https://github.com/pauci/datetime
+[release]: https://packagist.org/packages/pauci/datetime
+[license]: https://github.com/pauci/datetime/blob/master/LICENSE
+[build]: https://travis-ci.org/pauci/datetime
+[coverage]: https://coveralls.io/r/pauci/datetime?branch=master
+[downloads]: https://packagist.org/packages/pauci/datetime
