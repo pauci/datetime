@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
-class DateInterval extends \DateInterval implements \JsonSerializable
+use Exception;
+use JsonSerializable;
+
+class DateInterval extends \DateInterval implements JsonSerializable
 {
     /**
-     * @param \DateInterval $dateInterval
-     * @return DateInterval
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromDateInterval(\DateInterval $dateInterval): self
     {
@@ -25,14 +26,7 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     }
 
     /**
-     * @param int $years
-     * @param int $months
-     * @param int $days
-     * @param int $hours
-     * @param int $minutes
-     * @param int $seconds
-     * @return DateInterval
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromParts(
         int $years = 0,
@@ -53,34 +47,23 @@ class DateInterval extends \DateInterval implements \JsonSerializable
     }
 
     /**
-     * @param string $interval
-     * @return DateInterval
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromString(string $interval): self
     {
         return new self($interval);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->toString();
     }
 
-    /**
-     * @return string
-     */
     public function jsonSerialize(): string
     {
         return $this->toString();
     }
 
-    /**
-     * @return string
-     */
     public function toString(): string
     {
         $dateString = '';

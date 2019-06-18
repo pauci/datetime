@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Pauci\DateTime;
 
 use DateTimeZone;
+use Exception;
+use Pauci\DateTime\Exception\InvalidTimeStringException;
 
 class DateTimeFactory implements DateTimeFactoryInterface
 {
@@ -17,37 +19,25 @@ class DateTimeFactory implements DateTimeFactoryInterface
         return $this->fromFloatTimestamp(microtime(true));
     }
 
-    /**
-     * @param string $time
-     * @param DateTimeZone|null $timezone
-     * @return DateTimeInterface
-     */
     public function fromString(string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         try {
             return new DateTime($time, $timezone);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message = $e->getMessage();
             if (0 === strpos($message, 'DateTimeImmutable::__construct(): ')) {
                 $message = substr($message, 34);
             }
-            throw new Exception\InvalidTimeStringException($message, $e->getCode(), $e);
+            throw new InvalidTimeStringException($message, $e->getCode(), $e);
         }
     }
 
-    /**
-     * @param string $format
-     * @param string $time
-     * @param DateTimeZone|null $timezone
-     * @return DateTimeInterface
-     * @throws \InvalidArgumentException
-     */
     public function fromFormat(string $format, string $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         $dateTime = \DateTime::createFromFormat($format, $time, $timezone);
 
         if (!$dateTime) {
-            throw new Exception\InvalidTimeStringException(
+            throw new InvalidTimeStringException(
                 sprintf('Failed to parse time string "%s" formatted as "%s"', $time, $format)
             );
         }
@@ -55,22 +45,12 @@ class DateTimeFactory implements DateTimeFactoryInterface
         return $this->fromDateTime($dateTime);
     }
 
-    /**
-     * @param int $timestamp
-     * @param DateTimeZone|null $timezone
-     * @return DateTimeInterface
-     */
     public function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
     {
         return $this->fromString('@' . $timestamp)
             ->setTimezone($timezone ?? $this->getDefaultTimezone());
     }
 
-    /**
-     * @param float $timestamp
-     * @param DateTimeZone|null $timezone
-     * @return DateTimeInterface
-     */
     public function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): DateTimeInterface
     {
         $integerPart = (int) floor($timestamp);
@@ -81,18 +61,11 @@ class DateTimeFactory implements DateTimeFactoryInterface
         return $timezone ? $dateTime->setTimezone($timezone) : $dateTime;
     }
 
-    /**
-     * @param \DateTimeInterface $dateTime
-     * @return DateTimeInterface
-     */
     public function fromDateTime(\DateTimeInterface $dateTime): DateTimeInterface
     {
         return $this->fromString($dateTime->format('Y-m-d H:i:s.u'), $dateTime->getTimezone());
     }
 
-    /**
-     * @return DateTimeZone
-     */
     private function getDefaultTimezone(): DateTimeZone
     {
         return new DateTimeZone(date_default_timezone_get());

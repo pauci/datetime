@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
+use JsonSerializable;
+
 /**
  * @method DateTimeInterface add(\DateInterval $interval)
  * @method DateTimeInterface sub(\DateInterval $interval)
@@ -13,33 +15,19 @@ namespace Pauci\DateTime;
  * @method DateTimeInterface setTimestamp($unixtimestamp)
  * @method DateTimeInterface setTimezone(\DateTimeZone $timezone)
  */
-interface DateTimeInterface extends \DateTimeInterface, \JsonSerializable
+interface DateTimeInterface extends \DateTimeInterface, JsonSerializable
 {
     /**
      * @param \DateTimeInterface $datetime
      * @param bool $absolute
-     * @return DateInterval
      */
     public function diff($datetime, $absolute = false): DateInterval;
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @return bool
-     */
     public function equals(self $dateTime): bool;
 
-    /**
-     * @return DateTimeInterface
-     */
     public function inDefaultTimezone(): DateTimeInterface;
 
-    /**
-     * @return string
-     */
     public function toString(): string;
 
-    /**
-     * @return string
-     */
     public function __toString(): string;
 }
