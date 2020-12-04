@@ -273,7 +273,6 @@ class DateTimeTest extends TestCase
 
         $interval = $dateTime1->diff($dateTime2);
 
-        self::assertInstanceOf(DateInterval::class, $interval);
         self::assertEquals('P1Y10M15DT21H46M17S', (string) $interval);
     }
 

@@ -56,8 +56,6 @@ class DateIntervalTest extends TestCase
     {
         $interval = DateInterval::fromString($intervalSpec);
 
-        self::assertInstanceOf(DateInterval::class, $interval);
-
         self::assertEquals($parts[0], $interval->y);
         self::assertEquals($parts[1], $interval->m);
         self::assertEquals($parts[2], $interval->d);
@@ -72,8 +70,6 @@ class DateIntervalTest extends TestCase
     public function testToString(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromParts($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
-
-        self::assertInstanceOf(DateInterval::class, $interval);
 
         self::assertEquals($intervalSpec, (string) $interval);
     }
