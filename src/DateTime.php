@@ -80,7 +80,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
 
     /**
      * @param int $timestamp
-     * @param DateTimeZone $timezone
+     * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
     public static function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
@@ -113,7 +113,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
      * @param DateTimeZone|null $timezone
      * @return DateTimeInterface
      */
-    public static function createFromFormat($format, $time, $timezone = null): DateTimeInterface
+    public static function createFromFormat($format, $time, DateTimeZone $timezone = null): DateTimeInterface
     {
         return self::fromFormat($format, $time, $timezone);
     }
