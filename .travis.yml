@@ -17,6 +17,7 @@ matrix:
         - CHECK_CS=true
         - TEST_COVERAGE=true
     - php: 7.4
+    - php: 8.0
     - php: nightly
 
 before_install:
