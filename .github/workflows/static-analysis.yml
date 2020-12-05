@@ -3,7 +3,7 @@ name: Static Analysis
 on: [push, pull_request]
 
 jobs:
-  static-analysis-phpstan:
+  static-analysis:
     name: PHPStan
     runs-on: ubuntu-latest
 
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           coverage: none
@@ -26,17 +26,15 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Cache composer dependencies
+      - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
-        run: composer update --no-progress --no-interaction --prefer-dist
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress --prefer-dist
 
-      - name: Run Tests
+      - name: Run static analysis
         run: php vendor/bin/phpstan analyse
