@@ -319,6 +319,7 @@ class DateTimeTest extends TestCase
         $serialized = serialize($dateTime);
         $unserializedDateTime = unserialize($serialized, ['allowed_classes' => [DateTime::class]]);
 
+        self::assertInstanceOf(DateTime::class, $unserializedDateTime);
         self::assertEquals($dateTime, $unserializedDateTime);
         self::assertEquals($dateTime->getTimezone(), $unserializedDateTime->getTimezone());
     }

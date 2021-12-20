@@ -1,18 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
-class DateInterval extends \DateInterval implements \JsonSerializable
+class DateInterval extends \DateInterval implements \JsonSerializable, \Stringable
 {
     /**
-     * @param \DateInterval $dateInterval
-     * @return DateInterval
      * @throws \Exception
      */
-    public static function fromDateInterval(\DateInterval $dateInterval): self
+    public static function fromDateInterval(\DateInterval $dateInterval): static
     {
-        $interval = new self('P0D');
+        $interval = new static('P0D');
         $interval->y = $dateInterval->y;
         $interval->m = $dateInterval->m;
         $interval->d = $dateInterval->d;
@@ -21,17 +20,11 @@ class DateInterval extends \DateInterval implements \JsonSerializable
         $interval->s = $dateInterval->s;
         $interval->invert = $dateInterval->invert;
         $interval->days = $dateInterval->days;
+
         return $interval;
     }
 
     /**
-     * @param int $years
-     * @param int $months
-     * @param int $days
-     * @param int $hours
-     * @param int $minutes
-     * @param int $seconds
-     * @return DateInterval
      * @throws \Exception
      */
     public static function fromParts(
@@ -41,76 +34,79 @@ class DateInterval extends \DateInterval implements \JsonSerializable
         int $hours = 0,
         int $minutes = 0,
         int $seconds = 0
-    ): self {
-        $interval = new self('P0D');
+    ): static {
+        $interval = new static('P0D');
         $interval->y = $years;
         $interval->m = $months;
         $interval->d = $days;
         $interval->h = $hours;
         $interval->i = $minutes;
         $interval->s = $seconds;
+
         return $interval;
     }
 
-    /**
-     * @param string $interval
-     * @return DateInterval
-     * @throws \Exception
-     */
-    public static function fromString(string $interval): self
+    final public function __construct(string $duration)
     {
-        return new self($interval);
+        parent::__construct($duration);
     }
 
     /**
-     * @return string
+     * @throws \Exception
      */
+    public static function fromString(string $interval): static
+    {
+        return new static($interval);
+    }
+
     public function __toString(): string
     {
         return $this->toString();
     }
 
-    /**
-     * @return string
-     */
     public function jsonSerialize(): string
     {
         return $this->toString();
     }
 
-    /**
-     * @return string
-     */
     public function toString(): string
     {
-        $dateString = '';
+        $datePart = '';
+
         if ($this->y !== 0) {
-            $dateString .= $this->y . 'Y';
+            $datePart .= $this->y . 'Y';
         }
+
         if ($this->m !== 0) {
-            $dateString .= $this->m . 'M';
+            $datePart .= $this->m . 'M';
         }
+
         if ($this->d !== 0) {
-            $dateString .= $this->d . 'D';
+            $datePart .= $this->d . 'D';
         }
 
-        $timeString = '';
+        $timePart = '';
+
         if ($this->h !== 0) {
-            $timeString .= $this->h . 'H';
-        }
-        if ($this->i !== 0) {
-            $timeString .= $this->i . 'M';
-        }
-        if ($this->s !== 0) {
-            $timeString .= $this->s . 'S';
+            $timePart .= $this->h . 'H';
         }
 
-        if ($timeString === '') {
-            if ($dateString === '') {
+        if ($this->i !== 0) {
+            $timePart .= $this->i . 'M';
+        }
+
+        if ($this->s !== 0) {
+            $timePart .= $this->s . 'S';
+        }
+
+        if ($timePart === '') {
+            if ($datePart === '') {
                 return 'P0D';
             }
-            return 'P' . $dateString;
+
+            return 'P' . $datePart;
         }
-        return 'P' . $dateString . 'T' . $timeString;
+
+        return 'P' . $datePart . 'T' . $timePart;
     }
 }
