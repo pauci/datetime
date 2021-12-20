@@ -28,10 +28,6 @@ class DateTimeFactory implements DateTimeFactoryInterface
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
-            if (str_starts_with($message, 'DateTimeImmutable::__construct(): ')) {
-                $message = substr($message, 34);
-            }
-
             throw new Exception\InvalidTimeStringException($message, previous: $e);
         }
     }

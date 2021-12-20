@@ -43,18 +43,17 @@ class DateIntervalTest extends TestCase
     /**
      * Test for extreme case when diff between winter and daylight saving time returns interval with negative hour
      */
-    public function testFromDateIntervalWithNegativeHour(): void
+    public function testFromDateIntervalBetweenWinterAndDst(): void
     {
-        if (PHP_VERSION_ID >= 80100) {
-            self::markTestSkipped();
-        }
-        $phpDate1 = new \DateTimeImmutable('2016-11-22 11:00:00');
-        $phpDate2 = new \DateTimeImmutable('2016-08-22 12:00:00');
-        $phpInterval = $phpDate1->diff($phpDate2);
+        $winterTime = new \DateTimeImmutable('2016-11-22 11:00:00');
+        $dstTime = new \DateTimeImmutable('2016-08-22 12:00:00');
+        $phpInterval = $winterTime->diff($dstTime);
 
         $interval = DateInterval::fromDateInterval($phpInterval);
 
-        self::assertEquals('P2M30DT23H', (string) $interval);
+        $expected = PHP_VERSION_ID >= 80100 ? 'P2M30DT23H' : 'P3MT-1H';
+
+        self::assertEquals($expected, (string) $interval);
     }
 
     /**
