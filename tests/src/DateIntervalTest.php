@@ -39,14 +39,14 @@ class DateIntervalTest extends TestCase
         self::assertEquals($parts[4], $interval->i);
         self::assertEquals($parts[5], $interval->s);
 
-        // Test for extreme case when diff between winter and summer time returns interval with negative hour
+        // Test for extreme case when diff between winter and daylight saving time returns interval with negative hour
         $phpDate1 = new \DateTimeImmutable('2016-11-22 11:00:00');
         $phpDate2 = new \DateTimeImmutable('2016-08-22 12:00:00');
         $phpInterval = $phpDate1->diff($phpDate2);
 
         $interval = DateInterval::fromDateInterval($phpInterval);
 
-        self::assertEquals('P3MT-1H', (string) $interval);
+        self::assertEquals('P2M30DT23H', (string) $interval);
     }
 
     /**
