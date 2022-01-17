@@ -18,7 +18,7 @@ interface DateTimeInterface extends \DateTimeInterface, \Stringable, \JsonSerial
 
     public function sub(\DateInterval $interval): static;
 
-    public function modify(string $modifier): static|false;
+    public function modify(string $modifier): static;
 
     public function setDate(int $year, int $month, int $day): static;
 

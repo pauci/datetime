@@ -90,9 +90,17 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
         return parent::sub($interval);
     }
 
-    public function modify(string $modifier): static|false
+    public function modify(string $modifier): static
     {
-        return parent::modify($modifier);
+        try {
+            $dateTime = parent::modify($modifier);
+        } catch (\Throwable $e) {
+            $message = strtr($e->getMessage(), [\DateTimeImmutable::class => static::class]);
+
+            throw new Exception\FailedToModifyException($message, previous: $e);
+        }
+
+        return $dateTime;
     }
 
     public function setDate(int $year, int $month, int $day): static
