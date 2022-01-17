@@ -6,6 +6,7 @@ namespace Pauci\DateTime\Test;
 use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTime;
 use Pauci\DateTime\DateTimeFactory;
+use Pauci\DateTime\Exception\FailedToModifyException;
 use Pauci\DateTime\Exception\InvalidTimeStringException;
 use PHPUnit\Framework\TestCase;
 
@@ -204,6 +205,15 @@ class DateTimeTest extends TestCase
 
         // Immutability check
         self::assertEquals('2016-05-12T22:37:46+02:00', (string) $dateTime1);
+    }
+
+    public function testModifyFailed(): void
+    {
+        $this->expectException(FailedToModifyException::class);
+        $this->expectExceptionMessage('Pauci\DateTime\DateTime::modify(): Failed to parse time string (foo) at position 0 (f): The timezone could not be found in the database');
+
+        $dateTime = DateTime::fromString('2016-05-12 22:37:46+02:00');
+        $dateTime->modify('foo');
     }
 
     public function testSetDate(): void
