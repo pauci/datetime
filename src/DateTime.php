@@ -12,6 +12,8 @@ class DateTime extends DateTimeImmutable implements DateTimeInterface
 {
     protected static ?ClockInterface $clock = null;
 
+    protected static ?string $format = null;
+
     public static function getClock(): ClockInterface
     {
         return static::$clock ??= new SystemClock();
@@ -20,6 +22,16 @@ class DateTime extends DateTimeImmutable implements DateTimeInterface
     public static function setClock(ClockInterface $clock): void
     {
         static::$clock = $clock;
+    }
+
+    public static function getFormat(): ?string
+    {
+        return static::$format;
+    }
+
+    public static function setFormat(?string $format): void
+    {
+        static::$format = $format;
     }
 
     public static function now(): DateTimeInterface
@@ -153,14 +165,14 @@ class DateTime extends DateTimeImmutable implements DateTimeInterface
 
     public function toString(): string
     {
-        return $this->format($this->getFormat());
-    }
+        $format = static::$format
+            ?? (
+                '000000' === $this->format('u')
+                    ? \DateTimeInterface::ATOM
+                    : 'Y-m-d\TH:i:s.uP'
+            );
 
-    private function getFormat(): string
-    {
-        return $this->format('u') === '000000'
-            ? \DateTimeInterface::ATOM
-            : 'Y-m-d\TH:i:s.uP';
+        return $this->format($format);
     }
 
     public function __toString(): string

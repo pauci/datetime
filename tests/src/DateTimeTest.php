@@ -302,6 +302,19 @@ final class DateTimeTest extends TestCase
         self::assertEquals('{"now":"' . $dateTime->toString() . '"}', json_encode(['now' => $dateTime], JSON_THROW_ON_ERROR));
     }
 
+    public function testEnforceFormat(): void
+    {
+        $dateTime = DateTime::fromString('2016-05-12 22:37:46.123456-05:00');
+
+        self::assertNull(DateTime::getFormat());
+        DateTime::setFormat(\DateTimeInterface::ATOM);
+        self::assertEquals(\DateTimeInterface::ATOM, DateTime::getFormat());
+
+        self::assertEquals('2016-05-12T22:37:46-05:00', $dateTime->toString());
+        self::assertEquals('2016-05-12T22:37:46-05:00', sprintf('%s', $dateTime));
+        self::assertEquals('"2016-05-12T22:37:46-05:00"', json_encode($dateTime, JSON_THROW_ON_ERROR));
+    }
+
     public function testSerialize(): void
     {
         $dateTime = DateTime::now();
