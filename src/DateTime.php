@@ -4,55 +4,67 @@ declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
+use DateTimeImmutable;
 use DateTimeZone;
+use Exception;
 
-class DateTime extends \DateTimeImmutable implements DateTimeInterface
+class DateTime extends DateTimeImmutable implements DateTimeInterface
 {
-    private static ?DateTimeFactoryInterface $factory;
+    protected static ?ClockInterface $clock = null;
 
-    public static function getFactory(): DateTimeFactoryInterface
+    public static function getClock(): ClockInterface
     {
-        return self::$factory ??= new DateTimeFactory();
+        return static::$clock ??= new SystemClock();
     }
 
-    public static function setFactory(DateTimeFactoryInterface $factory): void
+    public static function setClock(ClockInterface $clock): void
     {
-        self::$factory = $factory;
+        static::$clock = $clock;
     }
 
     public static function now(): DateTimeInterface
     {
-        return self::getFactory()->now();
+        return static::getClock()->now();
     }
 
-    public static function microsecondsNow(): DateTimeInterface
+    /**
+     * @throws Exception
+     */
+    public static function fromString(string $time, DateTimeZone $timezone = null): static
     {
-        return self::getFactory()->microsecondsNow();
+        $dateTime = parent::createFromInterface(new \DateTime($time, $timezone));
+        \assert($dateTime instanceof static);
+
+        return $dateTime;
     }
 
-    public static function fromString(string $time, DateTimeZone $timezone = null): DateTimeInterface
+    /**
+     * @throws Exception
+     */
+    public static function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): static
     {
-        return self::getFactory()->fromString($time, $timezone);
+        $dateTime = static::createFromFormat('U', (string) $timestamp);
+        \assert(false !== $dateTime);
+
+        return null !== $timezone
+            ? $dateTime->setTimezone($timezone)
+            : $dateTime->inDefaultTimezone();
     }
 
-    public static function fromFormat(string $format, string $time, DateTimeZone $timezone = null): DateTimeInterface
+    public static function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): static
     {
-        return self::getFactory()->fromFormat($format, $time, $timezone);
-    }
+        $integer = floor($timestamp);
+        $fract = fmod($timestamp, 1);
+        if ($fract < 0) {
+            ++$fract;
+        }
 
-    public static function fromTimestamp(int $timestamp, DateTimeZone $timezone = null): DateTimeInterface
-    {
-        return self::getFactory()->fromTimestamp($timestamp, $timezone);
-    }
+        $dateTime = static::createFromFormat('U u', sprintf('%d %06d', $integer, round($fract * 1_000_000)));
+        \assert(false !== $dateTime);
 
-    public static function fromFloatTimestamp(float $timestamp, DateTimeZone $timezone = null): DateTimeInterface
-    {
-        return self::getFactory()->fromFloatTimestamp($timestamp, $timezone);
-    }
-
-    public static function fromDateTime(\DateTimeInterface $dateTime): DateTimeInterface
-    {
-        return self::getFactory()->fromDateTime($dateTime);
+        return null !== $timezone
+            ? $dateTime->setTimezone($timezone)
+            : $dateTime->inDefaultTimezone();
     }
 
     #[\ReturnTypeWillChange]
@@ -60,18 +72,27 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
         string $format,
         string $datetime,
         DateTimeZone $timezone = null
-    ): DateTimeInterface {
-        return self::fromFormat($format, $datetime, $timezone);
+    ): static|false {
+        return parent::createFromFormat($format, $datetime, $timezone);
     }
 
     #[\ReturnTypeWillChange]
-    public static function createFromMutable(\DateTime $object): DateTimeInterface
+    public static function createFromMutable(\DateTime $object): static
     {
-        return self::fromDateTime($object);
+        return parent::createFromMutable($object);
+    }
+
+    #[\ReturnTypeWillChange]
+    public static function createFromInterface(\DateTimeInterface $object): static
+    {
+        $dateTime = parent::createFromInterface($object);
+        \assert($dateTime instanceof static);
+
+        return $dateTime;
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function diff(\DateTimeInterface $targetObject, bool $absolute = false): DateInterval
     {
@@ -90,17 +111,9 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
         return parent::sub($interval);
     }
 
-    public function modify(string $modifier): static
+    public function modify(string $modifier): static|false
     {
-        try {
-            $dateTime = parent::modify($modifier);
-        } catch (\Throwable $e) {
-            $message = strtr($e->getMessage(), [\DateTimeImmutable::class => static::class]);
-
-            throw new Exception\FailedToModifyException($message, previous: $e);
-        }
-
-        return $dateTime;
+        return parent::modify($modifier);
     }
 
     public function setDate(int $year, int $month, int $day): static
@@ -133,7 +146,7 @@ class DateTime extends \DateTimeImmutable implements DateTimeInterface
         return $this == $dateTime;
     }
 
-    public function inDefaultTimezone(): DateTimeInterface
+    public function inDefaultTimezone(): static
     {
         return $this->setTimezone(new DateTimeZone(date_default_timezone_get()));
     }

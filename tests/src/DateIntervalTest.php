@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pauci\DateTime\Test;
@@ -6,8 +7,11 @@ namespace Pauci\DateTime\Test;
 use Pauci\DateTime\DateInterval;
 use PHPUnit\Framework\TestCase;
 
-class DateIntervalTest extends TestCase
+final class DateIntervalTest extends TestCase
 {
+    /**
+     * @return list<array{0: string, 1: list<int>}>
+     */
     public static function dateIntervalStrings(): array
     {
         return [
@@ -25,6 +29,7 @@ class DateIntervalTest extends TestCase
 
     /**
      * @dataProvider dateIntervalStrings
+     * @param list<int> $parts
      */
     public function testFromDateInterval(string $intervalSpec, array $parts): void
     {
@@ -58,6 +63,7 @@ class DateIntervalTest extends TestCase
 
     /**
      * @dataProvider dateIntervalStrings
+     * @param list<int> $parts
      */
     public function testFromString(string $intervalSpec, array $parts): void
     {
@@ -73,6 +79,7 @@ class DateIntervalTest extends TestCase
 
     /**
      * @dataProvider dateIntervalStrings
+     * @param list<int> $parts
      */
     public function testToString(string $intervalSpec, array $parts): void
     {
@@ -83,11 +90,12 @@ class DateIntervalTest extends TestCase
 
     /**
      * @dataProvider dateIntervalStrings
+     * @param list<int> $parts
      */
     public function testJsonEncode(string $intervalSpec, array $parts): void
     {
         $interval = DateInterval::fromParts($parts[0], $parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 
-        self::assertEquals('"' . $intervalSpec . '"', json_encode($interval));
+        self::assertEquals('"' . $intervalSpec . '"', json_encode($interval, JSON_THROW_ON_ERROR));
     }
 }
