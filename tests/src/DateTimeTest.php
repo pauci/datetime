@@ -1,31 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pauci\DateTime\Test;
 
+use Exception;
 use Pauci\DateTime\DateInterval;
 use Pauci\DateTime\DateTime;
-use Pauci\DateTime\DateTimeFactory;
-use Pauci\DateTime\Exception\FailedToModifyException;
-use Pauci\DateTime\Exception\InvalidTimeStringException;
+use Pauci\DateTime\SystemClock;
 use PHPUnit\Framework\TestCase;
 
-class DateTimeTest extends TestCase
+final class DateTimeTest extends TestCase
 {
-    public function testGetFactory(): void
+    public function testGetDefaultClock(): void
     {
-        $defaultFactory = DateTime::getFactory();
+        $defaultClock = DateTime::getClock();
 
-        self::assertInstanceOf(DateTimeFactory::class, $defaultFactory);
+        self::assertInstanceOf(SystemClock::class, $defaultClock);
     }
 
-    public function testSetFactory(): void
+    public function testSetClock(): void
     {
-        $setFactory = new DateTimeFactory();
-        DateTime::setFactory($setFactory);
-        $getFactory = DateTime::getFactory();
+        $setClock = new SystemClock();
+        DateTime::setClock($setClock);
+        $getClock = DateTime::getClock();
 
-        self::assertSame($setFactory, $getFactory);
+        self::assertSame($setClock, $getClock);
     }
 
     public function testNow(): void
@@ -41,24 +41,6 @@ class DateTimeTest extends TestCase
         self::assertLessThanOrEqual(1, $diff);
     }
 
-    public function testMicrosecondsNow(): void
-    {
-        $dateTime1 = DateTime::microsecondsNow();
-        usleep(1);
-        $dateTime2 = DateTime::microsecondsNow();
-
-        self::assertInstanceOf(DateTime::class, $dateTime1);
-
-        $diff = (float) $dateTime2->format('U.u') - (float) $dateTime1->format('U.u');
-
-        self::assertGreaterThan(0, $diff);
-        self::assertLessThan(1, $diff);
-
-        $phpDateTime = new \DateTime();
-
-        self::assertEquals($phpDateTime->getTimezone(), $dateTime1->getTimezone());
-    }
-
     public function testFromString(): void
     {
         $dateTime = DateTime::fromString('2017-12-02 02:20:03');
@@ -69,7 +51,7 @@ class DateTimeTest extends TestCase
 
     public function testFromInvalidString(): void
     {
-        $this->expectException(InvalidTimeStringException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Failed to parse time string (?) at position 0 (?): Unexpected character');
 
         DateTime::fromString('?');
@@ -93,10 +75,8 @@ class DateTimeTest extends TestCase
 
     public function testCreateFromInvalidFormat(): void
     {
-        $this->expectException(InvalidTimeStringException::class);
-        $this->expectExceptionMessage('Failed to parse time string "2016-05-16 14:09:10" formatted as "invalid"');
-
-        DateTime::createFromFormat('invalid', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
+        $dateTime = DateTime::createFromFormat('invalid', '2016-05-16 14:09:10', new \DateTimeZone('utc'));
+        self::assertFalse($dateTime);
     }
 
     public function testCreateFromMutable(): void
@@ -135,10 +115,10 @@ class DateTimeTest extends TestCase
         self::assertEquals('1969-12-31T23:59:59.999999+00:00', (string) $dateTimeNegFract);
     }
 
-    public function testFromDateTime(): void
+    public function testCreateFromInterface(): void
     {
         $phpDateTime = new \DateTime('2016-05-16 14:32:51.678991');
-        $dateTime = DateTime::fromDateTime($phpDateTime);
+        $dateTime = DateTime::createFromInterface($phpDateTime);
 
         self::assertInstanceOf(DateTime::class, $dateTime);
         self::assertEquals('2016-05-16T14:32:51.678991+02:00', (string) $dateTime);
@@ -209,8 +189,8 @@ class DateTimeTest extends TestCase
 
     public function testModifyFailed(): void
     {
-        $this->expectException(FailedToModifyException::class);
-        $this->expectExceptionMessage('Pauci\DateTime\DateTime::modify(): Failed to parse time string (foo) at position 0 (f): The timezone could not be found in the database');
+        $this->expectError();
+        $this->expectErrorMessage('DateTimeImmutable::modify(): Failed to parse time string (foo) at position 0 (f): The timezone could not be found in the database');
 
         $dateTime = DateTime::fromString('2016-05-12 22:37:46+02:00');
         $dateTime->modify('foo');
@@ -319,7 +299,7 @@ class DateTimeTest extends TestCase
     {
         $dateTime = DateTime::now();
 
-        self::assertEquals('{"now":"' . $dateTime->toString() . '"}', json_encode(['now' => $dateTime]));
+        self::assertEquals('{"now":"' . $dateTime->toString() . '"}', json_encode(['now' => $dateTime], JSON_THROW_ON_ERROR));
     }
 
     public function testSerialize(): void

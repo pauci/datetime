@@ -10,7 +10,7 @@ interface DateTimeInterface extends \DateTimeInterface, \Stringable, \JsonSerial
 
     public function equals(self $dateTime): bool;
 
-    public function inDefaultTimezone(): DateTimeInterface;
+    public function inDefaultTimezone(): static;
 
     public function toString(): string;
 
@@ -18,7 +18,7 @@ interface DateTimeInterface extends \DateTimeInterface, \Stringable, \JsonSerial
 
     public function sub(\DateInterval $interval): static;
 
-    public function modify(string $modifier): static;
+    public function modify(string $modifier): static|false;
 
     public function setDate(int $year, int $month, int $day): static;
 
