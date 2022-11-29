@@ -23,7 +23,8 @@
     },
     "require": {
         "php": "~8.0.0||~8.1.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "psr/clock": "^1.0"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.2",
