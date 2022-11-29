@@ -6,7 +6,7 @@ namespace Pauci\DateTime;
 
 class SystemClock implements ClockInterface
 {
-    public function now(): DateTimeInterface
+    public function now(): DateTime
     {
         return new DateTime();
     }

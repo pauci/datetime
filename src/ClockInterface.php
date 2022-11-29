@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
-interface ClockInterface
+use Psr\Clock\ClockInterface as PsrClockInterface;
+
+interface ClockInterface extends PsrClockInterface
 {
-    public function now(): DateTimeInterface;
+    public function now(): DateTime;
 }

@@ -6,14 +6,14 @@ namespace Pauci\DateTime;
 
 class FrozenClock implements ClockInterface
 {
-    private DateTimeInterface $now;
+    private DateTime $now;
 
-    public function __construct(DateTimeInterface $now = null)
+    public function __construct(DateTime $now = null)
     {
         $this->now = $now ?? new DateTime();
     }
 
-    public function set(DateTimeInterface $now): void
+    public function set(DateTime $now): void
     {
         $this->now = $now;
     }
@@ -26,7 +26,7 @@ class FrozenClock implements ClockInterface
         $this->now = $now;
     }
 
-    public function now(): DateTimeInterface
+    public function now(): DateTime
     {
         return $this->now;
     }
