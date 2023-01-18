@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pauci\DateTime;
 
-class DateInterval extends \DateInterval implements \JsonSerializable, \Stringable
+class DateInterval extends \DateInterval implements DateIntervalInterface
 {
     /**
      * @throws \Exception

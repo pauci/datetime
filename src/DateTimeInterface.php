@@ -6,8 +6,6 @@ namespace Pauci\DateTime;
 
 interface DateTimeInterface extends \DateTimeInterface, \Stringable, \JsonSerializable
 {
-    public function diff(\DateTimeInterface $targetObject, bool $absolute = false): DateInterval;
-
     public function equals(self $dateTime): bool;
 
     public function inDefaultTimezone(): static;
